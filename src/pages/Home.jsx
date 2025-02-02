@@ -15,7 +15,7 @@ export default function Home() {
       </header>
 
       <div className="w-full h-svh text-center flex flex-col justify-center items-center">
-        <h1 className="text-8xl font-bold  font-headers space-x-2 text-secondary-main drop-shadow-xl mb-10">
+        <h1 className="text-8xl font-bold  font-headers space-x-2 text-secondary-lighter drop-shadow-xl mb-10">
           بصراحه
         </h1>
         <p className="font-body mb-5">
@@ -24,13 +24,13 @@ export default function Home() {
 
         <div className="flex gap-4">
           <button
-            className="mt-5 px-4 py-2 bg-secondary-main hover:bg-secondary-lighter text-white rounded-lg"
+            className="mt-5 px-4 py-2 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg"
             onClick={() => navigate("/Login")}
           >
             دخول
           </button>
           <button
-            className="mt-5 px-4 py-2 bg-secondary-main hover:bg-secondary-lighter  text-white rounded-lg"
+            className="mt-5 px-4 py-2 bg-secondary-lighter hover:bg-secondary-darker  text-white rounded-lg"
             onClick={() => navigate("/Register")}
           >
             سجل الآن
