@@ -2,11 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-import {
-  SECRET_KEY,
-  POST_MESSAGES_TOUSER,
-  USERS,
-} from "./components/SecretKey";
+import { SECRET_KEY, POST_MESSAGES_TOUSER } from "./components/SecretKey";
 
 export default function SendMessage() {
   const { userId } = useParams();
