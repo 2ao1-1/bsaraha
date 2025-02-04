@@ -1,11 +1,13 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { motion, AnimatePresence } from "framer-motion";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-import { GET_USER_MESSAGES, SECRET_KEY } from "./components/SecretKey";
 import { User } from "lucide-react";
+
+import { GET_USER_MESSAGES, SECRET_KEY } from "./components/SecretKey";
 import SparkButton from "./components/SparkButton";
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 

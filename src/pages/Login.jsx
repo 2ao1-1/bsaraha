@@ -4,8 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { jwtDecode } from "jwt-decode";
-
 import { motion } from "framer-motion";
+
 import CloseBtn from "./components/CloseBtn";
 import SparkButton from "./components/SparkButton";
 import { GET_EXISTUSER, SECRET_KEY } from "./components/SecretKey";
