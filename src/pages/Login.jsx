@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import LogHeader from "./components/LogHeader";
+import { useNavigate, Link } from "react-router-dom";
+
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import { jwtDecode } from "jwt-decode";
 
-import CryptoJS from "crypto-js";
-
-const SECRET_KEY = "MySuperSecretKey";
+import { motion } from "framer-motion";
+import CloseBtn from "./components/CloseBtn";
+import SparkButton from "./components/SparkButton";
+import { GET_EXISTUSER, SECRET_KEY } from "./components/SecretKey";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   useEffect(() => {
@@ -41,19 +44,17 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
     setError(null);
+    setSuccess(null);
 
     try {
-      const res = await axios.post(
-        "http://64.23.184.122:2001/api/auth/login",
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const res = await axios.post(GET_EXISTUSER, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       const { token, fullName } = res.data;
       if (!token) throw new Error("لم يتم استلام توكن صالح");
-      // console.log(token);
 
       const decoded = jwtDecode(token);
       if (!decoded.id) throw new Error("التوكن غير صالح");
@@ -68,80 +69,116 @@ export default function Login() {
         "userData",
         JSON.stringify({ token: encryptedToken, fullName: encryptedName })
       );
-      navigate("/Profile");
+
+      setSuccess("تم تسجيل الدخول بنجاح!");
+      setTimeout(() => {
+        navigate("/Profile");
+      }, 1000);
     } catch (err) {
-      setError(err.res?.data?.message || "خطأ في التسجيل");
+      setError(err.response?.data?.message || "خطأ في تسجيل الدخول");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
-        <LogHeader name="تسجيل الدخول" />
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="bg-red-50 text-red-500 p-3 rounded-md text-center">
-              {error}
-            </div>
-          )}
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="البريد الإلكتروني"
-              className="w-full p-3 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-secondary-lighter"
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              placeholder="كلمة المرور"
-              className="w-full p-3 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-secondary-lighter"
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`w-full bg-secondary-lighter hover:bg-secondary-darker text-white p-3 rounded-md transition duration-200 ${
-              isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {isLoading ? (
-              <span className="flex items-center justify-center">
-                <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="white"
-                    strokeWidth="4"
-                    fill="none"
-                  ></circle>
-                </svg>
-                جاري التحميل...
-              </span>
-            ) : (
-              "دخول"
-            )}
-          </button>
-        </form>
-        <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-          <p className="text-gray-600 mb-4">ليس لديك حساب؟</p>
-          <button
-            onClick={() => navigate("/Register")}
-            className="w-full bg-secondary-lighter hover:bg-secondary-darker text-white p-2 rounded-md transition duration-200"
-          >
-            سجل حسابك الآن
-          </button>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-secondary-darker/90 to-secondary-darker/75 font-body p-4">
+      <motion.div
+        className="text-center pb-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="font-headers text-primary-main text-5xl md:text-7xl md:px-8 drop-shadow-lg">
+          تسجيل الدخول
+        </h2>
+      </motion.div>
+
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="bg-primary-lighter/95 backdrop-blur-sm rounded-lg p-6 m-4 grid gap-5 w-full max-w-xl shadow-lg"
+        onSubmit={handleSubmit}
+      >
+        <div className="relative w-full">
+          <CloseBtn />
         </div>
-      </div>
+
+        {Object.entries(formData).map(([key, value]) => (
+          <motion.div
+            key={key}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: key === "email" ? 0.3 : 0.4 }}
+          >
+            <label
+              htmlFor={key}
+              className="text-text-secondary block mb-2 text-lg"
+            >
+              {key === "email" ? "البريد الإلكتروني" : "كلمة المرور"}
+            </label>
+            <input
+              type={key === "password" ? "password" : "text"}
+              name={key}
+              id={key}
+              value={value}
+              onChange={handleChange}
+              className="w-full p-3 bg-primary-darker text-text-primary rounded-md outline-none transition-all duration-300 focus:bg-secondary-lighter/25 focus:ring-2 focus:ring-secondary-lighter"
+              required
+            />
+          </motion.div>
+        ))}
+
+        <SparkButton
+          type="submit"
+          className="mt-4 bg-secondary-lighter text-primary-main p-3 w-full rounded-md font-bold text-lg transition-all duration-300 hover:bg-secondary-darker hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+          disabled={loading}
+        >
+          {loading ? (
+            <span className="inline-flex items-center">
+              جاري التسجيل...
+              <motion.span
+                className="mr-2 h-4 w-4 rounded-full border-2 border-primary-main border-t-transparent"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              />
+            </span>
+          ) : (
+            "تسجيل"
+          )}
+        </SparkButton>
+
+        <div className="text-center text-text-primary text-lg">
+          <span>لديك حساب؟ </span>
+          <Link
+            to="/Register"
+            className="text-secondary-lighter font-bold transition-colors duration-300 hover:text-secondary-darker"
+          >
+            إنشاء حساب هنا
+          </Link>
+        </div>
+
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-red-500 text-center p-2 bg-red-100 rounded-md"
+          >
+            {error}
+          </motion.p>
+        )}
+
+        {success && (
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-green-500 text-center p-2 bg-green-100 rounded-md"
+          >
+            {success}
+          </motion.p>
+        )}
+      </motion.form>
     </div>
   );
 }

@@ -58,10 +58,8 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
 
-          # نقل الملفات إلى السيرفر
           scp -i private_key -r ./dist $SERVER_USER@$SERVER_IP:$SERVER_PATH
 
-          # تنفيذ الأوامر على السيرفر بعد النقل
           ssh -i private_key $SERVER_USER@$SERVER_IP << 'EOF'
           cd /home/myapp
           docker-compose down

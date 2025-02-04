@@ -2,8 +2,11 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-
-const SECRET_KEY = "MySuperSecretKey";
+import {
+  SECRET_KEY,
+  POST_MESSAGES_TOUSER,
+  USERS,
+} from "./components/SecretKey";
 
 export default function SendMessage() {
   const { userId } = useParams();
@@ -11,12 +14,6 @@ export default function SendMessage() {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessages] = useState([]);
-
-  // function resetProfie() {
-  //   setMessages([]);
-  //   setLoading(true);
-  //   fetchMessages(userData?.token);
-  // }
 
   useEffect(() => {
     const storedData = localStorage.getItem("userData");
@@ -29,8 +26,6 @@ export default function SendMessage() {
           SECRET_KEY
         ).toString(CryptoJS.enc.Utf8);
 
-        console.log(decryptedName);
-
         setRecipientName(decryptedName || "مستخدم غير معروف");
       } catch (error) {
         console.error("خطأ في فك التشفير:", error);
@@ -41,7 +36,20 @@ export default function SendMessage() {
     }
   }, []);
 
-  const sendMessage = async () => {
+  // async function currentUser() {
+  //   try {
+  //     const res = await axios.get(
+  //       `http://64.23.184.122:2001/api/user/${userId}`
+  //     );
+  //     const data = res.data;
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
+  // currentUser();
+
+  async function sendMessage() {
     if (!message.trim()) {
       setStatus({ text: "⚠️ الرسالة لا يمكن أن تكون فارغة!", type: "error" });
       return;
@@ -50,16 +58,19 @@ export default function SendMessage() {
     setLoading(true);
     try {
       const res = await axios.post(
-        `http://64.23.184.122:2001/api/messages/${userId}`,
+        `${POST_MESSAGES_TOUSER}${userId}`,
         { content: message },
         { headers: { "Content-Type": "application/json" } }
       );
 
-      console.log("🔵 Response from API:", res.data); // ✅ تحقق مما يرجعه السيرفر
+      console.log("🔵 Response from API:", res.data);
 
       setMessages((prevMessages) => [...prevMessages, { content: message }]);
       setStatus({ text: "✅ تم إرسال الرسالة بنجاح!", type: "success" });
       setMessages([]);
+      setInterval(() => {
+        setStatus("");
+      }, 2000);
     } catch (error) {
       console.error("❌ API Error:", error.response?.data || error);
       setStatus({
@@ -69,22 +80,24 @@ export default function SendMessage() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-secondary-darker/90 to-secondary-darker/75 text-text-primary">
+      <div className="bg-primary-main p-6 rounded-lg shadow-lg w-full max-w-md">
         {recipientName ? (
-          <div className="mb-4 p-4 bg-gray-700 rounded">
-            <h3 className="text-lg font-semibold">👤 إرسال رسالة إلى:</h3>
-            <p className="text-xl text-blue-300 font-bold">{recipientName}</p>
+          <div className="mb-4 p-4 text-center rounded">
+            <h3 className="text-sm font-semibold">👤 إرسال رسالة إلى:</h3>
+            <p className="text-3xl font-headers text-secondary-lighter font-bold">
+              {recipientName}
+            </p>
           </div>
         ) : (
           <p className="text-center text-red-400">مستقبل الرسالة غير معروف</p>
         )}
 
         <textarea
-          className="w-full p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 rounded bg-primary-darker text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary-lighter"
           rows="4"
           placeholder="✍️ اكتب رسالتك هنا..."
           value={message}
@@ -95,9 +108,9 @@ export default function SendMessage() {
           disabled={loading}
           className={`mt-4 ${
             loading
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          } text-white px-4 py-2 rounded w-full transition-all`}
+              ? "bg-secondary-main cursor-not-allowed"
+              : "bg-secondary-lighter hover:bg-secondary-darker"
+          } text-primary-main px-4 py-2 rounded w-full transition-all`}
         >
           {loading ? "⏳ جاري الإرسال..." : "🚀 إرسال"}
         </button>
