@@ -14,11 +14,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
+        with:
+          node-version: "18"
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm install
 
       - name: Build project
         run: npm run build
@@ -47,3 +49,21 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+      - name: Deploy to Server
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PATH: "/home/myapp"
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
+
+          # نقل الملفات إلى السيرفر
+          scp -i private_key -r ./dist $SERVER_USER@$SERVER_IP:$SERVER_PATH
+
+          # تنفيذ الأوامر على السيرفر بعد النقل
+          ssh -i private_key $SERVER_USER@$SERVER_IP << 'EOF'
+          cd /home/myapp
+          docker-compose down
+          docker-compose up -d --build
+          EOF
