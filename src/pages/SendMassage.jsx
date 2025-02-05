@@ -12,7 +12,7 @@ export default function SendMessage() {
   const [recipientName, setRecipientName] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(""); // تصحيح اسم المتغير
+  const [message, setMessage] = useState("");
   const [showStatus, setShowStatus] = useState(false);
 
   useEffect(() => {
@@ -36,14 +36,14 @@ export default function SendMessage() {
     }
   }, []);
 
-  const showStatusMessage = (text, type) => {
+  function showStatusMessage(text, type) {
     setStatus({ text, type });
     setShowStatus(true);
     setTimeout(() => {
       setShowStatus(false);
       setStatus("");
     }, 3000);
-  };
+  }
 
   async function sendMessage() {
     if (!message.trim()) {
@@ -60,7 +60,7 @@ export default function SendMessage() {
       );
 
       showStatusMessage("✅ تم إرسال الرسالة بنجاح!", "success");
-      setMessage(""); // مسح محتوى الرسالة بعد الإرسال
+      setMessage("");
     } catch (error) {
       console.error("❌ API Error:", error);
       const errorMessage =
