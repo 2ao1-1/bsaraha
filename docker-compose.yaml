@@ -4,4 +4,4 @@ services:
   bsaraha:
     build: .
     ports:
-      - '3000:3000'
+      - '3000:80'
