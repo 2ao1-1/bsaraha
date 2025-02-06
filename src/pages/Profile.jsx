@@ -108,11 +108,41 @@ export default function Profile() {
   }
 
   const shareUrl = `${window.location.origin}/send-message/${userId}`;
+  // function shareProfile() {
+  //   navigator.clipboard.writeText(shareUrl);
+  //   setSuccess("تم نسخ الرابط بنجاح!");
+  //   setInterval(() => {
+  //     setSuccess("");
+  //   }, 2000);
+  // }
   function shareProfile() {
-    navigator.clipboard.writeText(shareUrl);
-    setSuccess("تم نسخ الرابط بنجاح!");
-    setInterval(() => {
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = shareUrl;
+      textArea.style.position = 'fixed'; 
+      textArea.style.opacity = '0';       
+      
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        setSuccess("تم نسخ الرابط بنجاح!");
+      } catch (err) {
+        setError("فشل في نسخ الرابط");
+        console.error('Copy failed:', err);
+      }
+      
+      document.body.removeChild(textArea);
+    } catch (error) {
+      console.error("Share error:", error);
+      setError("حدث خطأ أثناء مشاركة الرابط");
+    }
+    
+    setTimeout(() => {
       setSuccess("");
+      setError("");
     }, 2000);
   }
 
