@@ -107,7 +107,7 @@ export default function Profile() {
     navigate("/Login");
   }
 
-  const shareUrl = `${window.location.origin}/send-message/${userId}`;
+  const shareUrl = `${window.location.origin}/#/send-message/${userId}`;
   // function shareProfile() {
   //   navigator.clipboard.writeText(shareUrl);
   //   setSuccess("تم نسخ الرابط بنجاح!");
@@ -119,27 +119,27 @@ export default function Profile() {
     try {
       const textArea = document.createElement("textarea");
       textArea.value = shareUrl;
-      textArea.style.position = 'fixed'; 
-      textArea.style.opacity = '0';       
-      
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
-      
+
       try {
-        document.execCommand('copy');
+        document.execCommand("copy");
         setSuccess("تم نسخ الرابط بنجاح!");
       } catch (err) {
         setError("فشل في نسخ الرابط");
-        console.error('Copy failed:', err);
+        console.error("Copy failed:", err);
       }
-      
+
       document.body.removeChild(textArea);
     } catch (error) {
       console.error("Share error:", error);
       setError("حدث خطأ أثناء مشاركة الرابط");
     }
-    
+
     setTimeout(() => {
       setSuccess("");
       setError("");
