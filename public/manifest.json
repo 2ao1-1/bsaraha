@@ -6,6 +6,7 @@
   "display": "standalone",
   "theme_color": "#6366F1",
   "background_color": "#ffffff",
+  "id": "/",
   "icons": [
     {
       "src": "/1.png",
@@ -16,6 +17,14 @@
       "src": "/2.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/banner.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ]
 }
