@@ -97,7 +97,7 @@ export default function Profile() {
 
   function handleLogout() {
     localStorage.removeItem("userData");
-    navigate("/Login");
+    navigate("/");
   }
 
   const shareUrl = `${window.location.origin}/#/send-message/${userId}`;
