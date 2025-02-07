@@ -259,10 +259,10 @@ function ReceivedMessages({ messages }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-secondary-darker/20 p-6 rounded-lg shadow-md border border-accent-lighter/20 relative"
+          className="bg-secondary-darker/10 p-4 rounded-lg shadow-md border border-accent-lighter/20 relative"
         >
-          <p className="text-text-primary text-lg">{message.content}</p>
-          <p className="text-sm text-text-secondary float-end mb-4">
+          <p className="text-text-primary text-lg mb-4">{message.content}</p>
+          <p className="text-sm text-text-secondary">
             {new Date(message.createdAt).toLocaleString("ar-EG", {
               day: "numeric",
               month: "long",
