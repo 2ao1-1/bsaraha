@@ -6,18 +6,37 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH into Server & Deploy
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: '64.23.184.122'
-          username: 'root'
-          password: 'pa$$w0rdPP'
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            cd /root/bsaraha  # Change this to your actual project path
-            git pull origin main  # Pull latest code
-            docker compose down  # Stop and remove old containers
-            docker compose up -d --build  # Rebuild and start new containers
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest 
+            docker stop myapp || true 
+            docker rm myapp || true 
+            docker run -d --name myapp -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest  
