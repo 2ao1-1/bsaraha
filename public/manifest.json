@@ -1,0 +1,20 @@
+{
+  "name": "بصراحه | استقبل مصارحات من اصدقائك",
+  "short_name": "بصراحه",
+  "description": "استقبل رأي اصدقائك عنك",
+  "theme_color": "#6366F1",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
