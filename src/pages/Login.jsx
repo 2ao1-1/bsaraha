@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
-import CryptoJS from "crypto-js";
 import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
 
 import CloseBtn from "./components/CloseBtn";
 import SparkButton from "./components/SparkButton";
-import { GET_EXISTUSER, SECRET_KEY } from "./components/SecretKey";
+import { GET_EXISTUSER } from "./components/SecretKey";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -59,16 +58,7 @@ export default function Login() {
       const decoded = jwtDecode(token);
       if (!decoded.id) throw new Error("التوكن غير صالح");
 
-      const encryptedToken = CryptoJS.AES.encrypt(token, SECRET_KEY).toString();
-      const encryptedName = CryptoJS.AES.encrypt(
-        fullName,
-        SECRET_KEY
-      ).toString();
-
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({ token: encryptedToken, fullName: encryptedName })
-      );
+      localStorage.setItem("userData", JSON.stringify({ token, fullName }));
 
       setSuccess("تم تسجيل الدخول بنجاح!");
       setTimeout(() => {

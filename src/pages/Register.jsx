@@ -3,9 +3,8 @@ import SparkButton from "./components/SparkButton.jsx";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import CryptoJS from "crypto-js";
 import CloseBtn from "./components/CloseBtn";
-import { POST_NEWUSER, SECRET_KEY } from "./components/SecretKey";
+import { POST_NEWUSER } from "./components/SecretKey";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -47,12 +46,7 @@ export default function Register() {
 
       setSuccess("تم التسجيل بنجاح!");
 
-      const encryptedData = CryptoJS.AES.encrypt(
-        JSON.stringify(res.data),
-        SECRET_KEY
-      ).toString();
-
-      localStorage.setItem("userData", encryptedData);
+      localStorage.setItem("userData", JSON.stringify(res.data));
 
       setTimeout(() => {
         navigate("/Login");

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { X } from "lucide-react";
 
 export default function Menu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,7 @@ export default function Menu() {
         القائمة
       </button>
 
-      <nav className="hidden md:flex justify-center gap-4">
+      <nav className="hidden md:flex justify-center">
         <MenuLinks />
       </nav>
 
@@ -26,15 +27,15 @@ export default function Menu() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
           id="mobile-menu"
-          className="absolute top-12 left-0 w-48 bg-primary-main text-secondary-darker font-bold shadow-lg rounded-md overflow-hidden"
+          className="absolute top-12 left-0 w-72 bg-primary-main text-secondary-darker font-bold shadow-lg rounded-md overflow-hidden p-2"
         >
           <div className="flex flex-col p-2">
             <button
-              className="self-end p-2 bg-accent-darker text-white rounded-md hover:bg-accent-lighter"
+              className="self-end p-2 bg-accent-darker text-white rounded-full hover:bg-accent-lighter"
               onClick={() => setIsOpen(false)}
               aria-label="إغلاق القائمة"
             >
-              ×
+              <X />
             </button>
             <MenuLinks mobile={true} />
           </div>
@@ -52,13 +53,19 @@ function MenuLinks({ mobile }) {
   ];
 
   return (
-    <ul className={`items-center space-y-2 ${mobile ? "block" : "flex gap-8"}`}>
+    <ul
+      className={`${
+        mobile
+          ? "flex flex-col space-y-2 py-2"
+          : "flex flex-row gap-8 items-center"
+      }`}
+    >
       {links.map((link, index) => (
         <li
           key={index}
           className="p-2 rounded hover:bg-text-secondary/20 cursor-pointer"
         >
-          <Link className="hover:underline" to={link.path}>
+          <Link className="hover:underline block w-full" to={link.path}>
             {link.name}
           </Link>
         </li>

@@ -1,11 +1,32 @@
 import { useNavigate } from "react-router-dom";
-import { Mail } from "lucide-react";
-import Menu from "./components/Menu";
+import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
 import SparkButton from "./components/SparkButton";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      try {
+        const userData = JSON.parse(storedUserData);
+        const token = userData?.token;
+        if (token) {
+          const decoded = jwtDecode(token);
+          if (decoded.exp * 1000 > Date.now()) {
+            navigate("/Profile");
+          } else {
+            localStorage.removeItem("userData");
+          }
+        }
+      } catch {
+        localStorage.removeItem("userData");
+      }
+    }
+  }, [navigate]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -24,18 +45,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <motion.header
-        className="bg-secondary-lighter"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", duration: 0.8 }}
-      >
-        <div className="flex space-x-4 p-4 text-primary-main justify-between items-center max-w-7xl mx-auto">
-          <Logo />
-          <Menu />
-        </div>
-      </motion.header>
-
+      <Navbar />
       <main className="flex-grow bg-gradient-to-b from-primary-lighter to-primary-lighter/95">
         <div className="w-full h-full min-h-[calc(100vh-80px)] text-center flex flex-col justify-center items-center px-4">
           <motion.div
@@ -86,24 +96,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  );
-}
-
-function Logo() {
-  return (
-    <motion.div
-      className="flex gap-4 items-center"
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-    >
-      <motion.div
-        initial={{ rotate: -20 }}
-        animate={{ rotate: 20 }}
-        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-      >
-        <Mail size={40} />
-      </motion.div>
-      <h2 className="text-4xl font-headers">بصراحه</h2>
-    </motion.div>
   );
 }

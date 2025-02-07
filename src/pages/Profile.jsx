@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import CryptoJS from "crypto-js";
 import { User } from "lucide-react";
 
-import { GET_USER_MESSAGES, SECRET_KEY } from "./components/SecretKey";
+import { GET_USER_MESSAGES } from "./components/SecretKey";
 import SparkButton from "./components/SparkButton";
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 
@@ -45,23 +44,17 @@ export default function Profile() {
       try {
         const parsedData = JSON.parse(storedUserData);
 
-        const decryptedToken = CryptoJS.AES.decrypt(
-          parsedData.token,
-          SECRET_KEY
-        ).toString(CryptoJS.enc.Utf8);
+        const token = parsedData.token;
 
-        const decryptedName = CryptoJS.AES.decrypt(
-          parsedData.fullName,
-          SECRET_KEY
-        ).toString(CryptoJS.enc.Utf8);
+        const fullName = parsedData.fullName;
 
         setUserData({
-          fullName: decryptedName,
-          token: decryptedToken,
+          fullName,
+          token,
         });
 
-        if (decryptedToken) {
-          const decodedToken = jwtDecode(decryptedToken);
+        if (token) {
+          const decodedToken = jwtDecode(token);
           setUserId(decodedToken.id);
         } else {
           console.error("❌ No token found.");
@@ -185,11 +178,10 @@ export default function Profile() {
             </h3>
             <SparkButton
               onClick={fetchMessages}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               className="bg-secondary-lighter hover:bg-secondary-darker text-white px-6 py-2 rounded-lg transition-colors duration-200 mb-6"
+              disabled={loading}
             >
-              <motion.button>🔄 تحديث يدوي</motion.button>
+              🔄 تحديث يدوي
             </SparkButton>
 
             {loading ? (
@@ -237,14 +229,11 @@ function UserInfo({ name }) {
 function CopyURL({ loading, shareProfile }) {
   return (
     <SparkButton
-      type="submit"
+      onClick={shareProfile}
       className="bg-secondary-lighter hover:bg-secondary-main text-white px-6 py-2 rounded-lg transition-colors duration-200"
       disabled={loading}
-      onClick={shareProfile}
     >
-      <motion.span whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        نسخ الرابط
-      </motion.span>
+      نسخ الرابط
     </SparkButton>
   );
 }
@@ -252,21 +241,11 @@ function CopyURL({ loading, shareProfile }) {
 function LogOutBtn({ loading, handleLogout }) {
   return (
     <SparkButton
-      type="submit"
+      onClick={handleLogout}
       className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors duration-200"
       disabled={loading}
-      onClick={handleLogout}
     >
-      <motion.span
-        animate={{ rotate: 360 }}
-        transition={{
-          duration: 1,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      >
-        تسجيل خروج
-      </motion.span>
+      تسجيل خروج
     </SparkButton>
   );
 }
@@ -283,7 +262,7 @@ function ReceivedMessages({ messages }) {
           className="bg-secondary-darker/20 p-6 rounded-lg shadow-md border border-accent-lighter/20 relative"
         >
           <p className="text-text-primary text-lg">{message.content}</p>
-          <p className="text-sm text-text-secondary float-end">
+          <p className="text-sm text-text-secondary float-end mb-4">
             {new Date(message.createdAt).toLocaleString("ar-EG", {
               day: "numeric",
               month: "long",

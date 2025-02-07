@@ -4,16 +4,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import SendMessage from "./pages/SendMassage";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/Profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/send-message/:userId" element={<SendMessage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

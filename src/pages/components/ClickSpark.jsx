@@ -10,8 +10,8 @@ export default function ClickSpark({
   extraScale = 1.0,
 }) {
   const canvasRef = useRef(null);
-  const sparksRef = useRef([]); // Stores spark data
-  const startTimeRef = useRef(null); // Tracks initial timestamp for animation
+  const sparksRef = useRef([]);
+  const startTimeRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,16 +32,14 @@ export default function ClickSpark({
 
     const handleResize = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(resizeCanvas, 100); // Debounce by 100ms
+      resizeTimeout = setTimeout(resizeCanvas, 100);
     };
 
     const ro = new ResizeObserver(handleResize);
     ro.observe(parent);
 
-    // Initial sizing
     resizeCanvas();
 
-    // Cleanup
     return () => {
       ro.disconnect();
       clearTimeout(resizeTimeout);
@@ -73,14 +71,13 @@ export default function ClickSpark({
 
     const draw = (timestamp) => {
       if (!startTimeRef.current) {
-        startTimeRef.current = timestamp; // store initial time
+        startTimeRef.current = timestamp;
       }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       sparksRef.current = sparksRef.current.filter((spark) => {
         const elapsed = timestamp - spark.startTime;
         if (elapsed >= duration) {
-          // Spark finished its animation
           return false;
         }
 
@@ -90,13 +87,11 @@ export default function ClickSpark({
         const distance = eased * sparkRadius * extraScale;
         const lineLength = sparkSize * (1 - eased);
 
-        // Points for the spark line
         const x1 = spark.x + distance * Math.cos(spark.angle);
         const y1 = spark.y + distance * Math.sin(spark.angle);
         const x2 = spark.x + (distance + lineLength) * Math.cos(spark.angle);
         const y2 = spark.y + (distance + lineLength) * Math.sin(spark.angle);
 
-        // Draw the spark line
         ctx.strokeStyle = sparkColor;
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -151,7 +146,7 @@ export default function ClickSpark({
         height: "100%",
         display: "block",
         userSelect: "none",
-        position: "absolute", // Ensure the canvas doesn't affect parent size
+        position: "absolute",
         top: 0,
         left: 0,
       }}
