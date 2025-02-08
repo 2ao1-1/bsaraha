@@ -1,5 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@200..1000&family=Oi&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Rakkas&display=swap");
+@font-face {
+  font-family: "Rakkas-Regular";
+  src: url("/src/assets/Rakkas-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: "Cairo-Regular";
+  src: url("/src/assets/Cairo-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+}
 
 @tailwind base;
 @tailwind components;

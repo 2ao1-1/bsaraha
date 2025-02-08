@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+
 import { motion } from "framer-motion";
+
 import SparkButton from "./components/SparkButton";
 import Navbar from "./components/Navbar";
+import decodeJWT from "./components/jwt";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ export default function Home() {
         const userData = JSON.parse(storedUserData);
         const token = userData?.token;
         if (token) {
-          const decoded = jwtDecode(token);
+          const decoded = decodeJWT(token);
           if (decoded.exp * 1000 > Date.now()) {
             navigate("/Profile");
           } else {
@@ -75,9 +77,6 @@ export default function Home() {
               <SparkButton
                 className="mt-5 px-6 py-3 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
                 onClick={() => navigate("/Login")}
-                sparkColor="#FFD700"
-                sparkSize={8}
-                sparkRadius={20}
               >
                 دخول
               </SparkButton>
@@ -85,9 +84,6 @@ export default function Home() {
               <SparkButton
                 className="mt-5 px-6 py-3 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
                 onClick={() => navigate("/Register")}
-                sparkColor="#FFD700"
-                sparkSize={8}
-                sparkRadius={20}
               >
                 سجل الآن
               </SparkButton>

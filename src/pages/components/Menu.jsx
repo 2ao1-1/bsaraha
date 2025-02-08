@@ -18,7 +18,9 @@ export default function Menu() {
       </button>
 
       <nav className="hidden md:flex justify-center">
-        <MenuLinks />
+        <MenuLinks name={"الصفحه الرئيسية"} path={"/"} />
+        <MenuLinks name={"تسجيل الدخول"} path={"/Login"} />
+        <MenuLinks name={"إنشاء حساب"} path={"/Register"} />
       </nav>
 
       {isOpen && (
@@ -45,13 +47,7 @@ export default function Menu() {
   );
 }
 
-function MenuLinks({ mobile }) {
-  const links = [
-    { name: "الصفحة الرئيسية", path: "/" },
-    { name: "تسجيل الدخول", path: "/Login" },
-    { name: "إنشاء حساب", path: "/Register" },
-  ];
-
+export function MenuLinks({ mobile, name, path }) {
   return (
     <ul
       className={`${
@@ -60,16 +56,11 @@ function MenuLinks({ mobile }) {
           : "flex flex-row gap-8 items-center"
       }`}
     >
-      {links.map((link, index) => (
-        <li
-          key={index}
-          className="p-2 rounded hover:bg-text-secondary/20 cursor-pointer"
-        >
-          <Link className="hover:underline block w-full" to={link.path}>
-            {link.name}
-          </Link>
-        </li>
-      ))}
+      <li className="p-2 rounded hover:bg-text-secondary/20 cursor-pointer">
+        <Link className="hover:underline block w-full" to={path}>
+          {name}
+        </Link>
+      </li>
     </ul>
   );
 }

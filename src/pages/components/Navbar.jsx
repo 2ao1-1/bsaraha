@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
+
 import Menu from "./Menu";
 
-export default function Navbar({ children }) {
+export default function Navbar() {
   return (
     <motion.header
       className="bg-secondary-lighter"
@@ -18,7 +19,7 @@ export default function Navbar({ children }) {
   );
 }
 
-function Logo() {
+export function Logo() {
   return (
     <motion.div
       className="flex gap-4 items-center"

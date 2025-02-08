@@ -1,10 +1,12 @@
-import { motion } from "framer-motion";
-import SparkButton from "./components/SparkButton.jsx";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { motion } from "framer-motion";
+
+import SparkButton from "./components/SparkButton.jsx";
 import CloseBtn from "./components/CloseBtn";
 import { POST_NEWUSER } from "./components/SecretKey";
+import { ErrorMessage, SuccessMessage } from "./components/SucOrErr.jsx";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -152,25 +154,9 @@ export default function Register() {
           </Link>
         </div>
 
-        {error && (
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-red-500 text-center p-2 bg-red-100 rounded-md"
-          >
-            {error}
-          </motion.p>
-        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        {success && (
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-green-500 text-center p-2 bg-green-100 rounded-md"
-          >
-            {success}
-          </motion.p>
-        )}
+        {success && <SuccessMessage>{success}</SuccessMessage>}
       </motion.form>
     </div>
   );

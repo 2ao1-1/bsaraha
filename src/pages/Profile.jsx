@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { User } from "lucide-react";
 
+import decodeJWT from "./components/jwt";
 import { GET_USER_MESSAGES } from "./components/SecretKey";
 import SparkButton from "./components/SparkButton";
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
@@ -54,7 +54,7 @@ export default function Profile() {
         });
 
         if (token) {
-          const decodedToken = jwtDecode(token);
+          const decodedToken = decodeJWT(token);
           setUserId(decodedToken.id);
         } else {
           console.error("❌ No token found.");

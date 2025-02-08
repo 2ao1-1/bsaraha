@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+
 import ClickSpark from "./ClickSpark";
 
 export default function SparkButton({

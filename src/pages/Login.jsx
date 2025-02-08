@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
 
 import CloseBtn from "./components/CloseBtn";
 import SparkButton from "./components/SparkButton";
 import { GET_EXISTUSER } from "./components/SecretKey";
+import decodeJWT from "./components/jwt";
+import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Login() {
         const userData = JSON.parse(storedUserData);
         const token = userData?.token;
         if (token) {
-          const decoded = jwtDecode(token);
+          const decoded = decodeJWT(token);
           if (decoded.exp * 1000 > Date.now()) {
             navigate("/Profile");
           } else {
@@ -55,7 +56,7 @@ export default function Login() {
       const { token, fullName } = res.data;
       if (!token) throw new Error("لم يتم استلام توكن صالح");
 
-      const decoded = jwtDecode(token);
+      const decoded = decodeJWT(token);
       if (!decoded.id) throw new Error("التوكن غير صالح");
 
       localStorage.setItem("userData", JSON.stringify({ token, fullName }));
@@ -149,25 +150,9 @@ export default function Login() {
           </Link>
         </div>
 
-        {error && (
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-red-500 text-center p-2 bg-red-100 rounded-md"
-          >
-            {error}
-          </motion.p>
-        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        {success && (
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-green-500 text-center p-2 bg-green-100 rounded-md"
-          >
-            {success}
-          </motion.p>
-        )}
+        {success && <SuccessMessage>{success}</SuccessMessage>}
       </motion.form>
     </div>
   );
