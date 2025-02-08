@@ -1,11 +1,13 @@
-export const SECRET_KEY = "MySuperSecretKey";
+export const SECRET_KEY = `MySuperSecretKey`;
 
-export const POST_NEWUSER = `http://64.23.184.122:2001/api/auth/register`;
+const baseUrl = `http://144.91.75.57:2001`;
 
-export const GET_EXISTUSER = "http://64.23.184.122:2001/api/auth/login";
+export const POST_NEWUSER = `${baseUrl}/api/auth/register`;
 
-export const GET_USER_MESSAGES = "http://64.23.184.122:2001/api/messages/";
+export const GET_EXISTUSER = `${baseUrl}/api/auth/login`;
 
-export const POST_MESSAGES_TOUSER = "http://64.23.184.122:2001/api/messages/";
+export const GET_USER_MESSAGES = `${baseUrl}/api/messages/`;
 
-export const USERS = "http://64.23.184.122:2001/api/users";
+export const POST_MESSAGES_TOUSER = `${baseUrl}/api/messages/`;
+
+export const USERS = `${baseUrl}/api/users`;
