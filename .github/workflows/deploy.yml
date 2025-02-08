@@ -37,6 +37,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest 
-            docker stop myapp || true 
-            docker rm myapp || true 
-            docker run -d --name myapp -p 3000:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest  
+            docker stop saraha-ui || true 
+            docker rm saraha-ui || true 
+            docker run -d --name saraha-ui -p 3000:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
