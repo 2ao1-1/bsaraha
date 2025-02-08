@@ -4,10 +4,10 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 
+import decodeJWT from "./components/jwt";
 import CloseBtn from "./components/CloseBtn";
 import SparkButton from "./components/SparkButton";
 import { GET_EXISTUSER } from "./components/SecretKey";
-import decodeJWT from "./components/jwt";
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 
 export default function Login() {
@@ -47,7 +47,7 @@ export default function Login() {
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+    console.log("ji");
     try {
       const res = await axios.post(GET_EXISTUSER, formData, {
         headers: { "Content-Type": "application/json" },

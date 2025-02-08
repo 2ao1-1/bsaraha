@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { POST_MESSAGES_TOUSER } from "./components/SecretKey";
 import { Logo } from "./components/Navbar";
-import { MenuLinks } from "./components/Menu";
+import { Link } from "react-router-dom";
 
 export default function SendMessage() {
   const { userId } = useParams();
@@ -167,5 +167,30 @@ export default function SendMessage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+function MenuLinks({ mobile }) {
+  const links = [{ name: "الصفحة الرئيسية", path: "/" }];
+
+  return (
+    <ul
+      className={`${
+        mobile
+          ? "flex flex-col space-y-2 py-2"
+          : "flex flex-row gap-8 items-center"
+      }`}
+    >
+      {links.map((link, index) => (
+        <li
+          key={index}
+          className="p-2 rounded hover:bg-text-secondary/20 cursor-pointer"
+        >
+          <Link className="hover:underline block w-full" to={link.path}>
+            {link.name}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
