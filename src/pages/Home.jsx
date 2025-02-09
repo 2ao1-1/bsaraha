@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import decodeJWT from "./components/jwt";
+import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
 
 import SparkButton from "./components/SparkButton";
@@ -18,9 +18,9 @@ export default function Home() {
         const userData = JSON.parse(storedUserData);
         const token = userData?.token;
         if (token) {
-          const decoded = decodeJWT(token);
+          const decoded = jwtDecode(token);
           if (decoded.exp * 1000 > Date.now()) {
-            navigate("/Profile");
+            navigate("/profile");
           } else {
             localStorage.removeItem("userData");
           }

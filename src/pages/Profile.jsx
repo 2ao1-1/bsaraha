@@ -37,7 +37,7 @@ export default function Profile() {
       const storedUserData = localStorage.getItem("userData");
 
       if (!storedUserData) {
-        navigate("/Login");
+        navigate("/login");
         return;
       }
 
@@ -58,11 +58,11 @@ export default function Profile() {
           setUserId(decodedToken.id);
         } else {
           console.error("❌ No token found.");
-          navigate("/Login");
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error parsing userData:", error);
-        navigate("/Login");
+        navigate("/login");
       }
     }
     getUserData();

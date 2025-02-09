@@ -26,7 +26,7 @@ export default function Login() {
         if (token) {
           const decoded = jwtDecode(token);
           if (decoded.exp * 1000 > Date.now()) {
-            navigate("/Profile");
+            navigate("/profile");
           } else {
             localStorage.removeItem("userData");
           }
@@ -63,7 +63,7 @@ export default function Login() {
 
       setSuccess("تم تسجيل الدخول بنجاح!");
       setTimeout(() => {
-        navigate("/Profile");
+        navigate("/profile");
       }, 1000);
     } catch (err) {
       setError(err.response?.data?.message || "خطأ في تسجيل الدخول");

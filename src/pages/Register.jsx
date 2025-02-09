@@ -52,7 +52,7 @@ export default function Register() {
       localStorage.setItem("userData", JSON.stringify(res.data));
 
       setTimeout(() => {
-        navigate("/Login");
+        navigate("/login");
       }, 1500);
     } catch (err) {
       if (err.response) {
