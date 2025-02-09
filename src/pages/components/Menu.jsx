@@ -60,12 +60,12 @@ export default function Menu() {
 
 export function MenuLink({ name, path, mobile }) {
   return (
-    <li>
+    <li className="hover:bg-secondary-darker rounded-md">
       <Link
         to={path}
         className={`
           block w-full p-2 rounded-md
-          ${mobile ? "hover:bg-slate-100" : "hover:text-slate-600"}
+          ${mobile ? "hover:bg-primary-darker" : "hover:text-primary-main"}
           transition-colors
         `}
       >
