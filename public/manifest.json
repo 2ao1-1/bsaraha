@@ -21,7 +21,7 @@
   ],
   "screenshots": [
     {
-      "src": "public/bannar.png",
+      "src": "/public/bannar.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "wide"
