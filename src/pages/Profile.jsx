@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { User } from "lucide-react";
 
-import { GET_USER_MESSAGES } from "./components/SecretKey";
+import { GET_USER_MESSAGES } from "./components/Apis";
 import SparkButton from "./components/SparkButton";
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 

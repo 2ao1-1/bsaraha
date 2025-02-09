@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
-import Menu from "./Menu";
 
 export default function Navbar({ children }) {
   return (
@@ -12,13 +11,13 @@ export default function Navbar({ children }) {
     >
       <div className="flex space-x-4 p-4 text-primary-main justify-between items-center max-w-7xl mx-auto">
         <Logo />
-        <Menu />
+        {children}
       </div>
     </motion.header>
   );
 }
 
-function Logo() {
+export function Logo() {
   return (
     <motion.div
       className="flex gap-4 items-center"

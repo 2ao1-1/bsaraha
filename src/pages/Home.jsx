@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
+
 import SparkButton from "./components/SparkButton";
 import Navbar from "./components/Navbar";
+import Menu from "./components/Menu";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -45,7 +48,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar>
+        <Menu />
+      </Navbar>
       <main className="flex-grow bg-gradient-to-b from-primary-lighter to-primary-lighter/95">
         <div className="w-full h-full min-h-[calc(100vh-80px)] text-center flex flex-col justify-center items-center px-4">
           <motion.div
@@ -75,19 +80,28 @@ export default function Home() {
               <SparkButton
                 className="mt-5 px-6 py-3 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
                 onClick={() => navigate("/Login")}
-                sparkColor="#FFD700"
-                sparkSize={8}
-                sparkRadius={20}
+                sparkProps={{
+                  sparkColor: "#fff",
+                  sparkSize: 8,
+                  sparkRadius: 25,
+                  sparkCount: 16,
+                  duration: 400,
+                  extraScale: 1.5,
+                }}
               >
                 دخول
               </SparkButton>
-
               <SparkButton
                 className="mt-5 px-6 py-3 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
                 onClick={() => navigate("/Register")}
-                sparkColor="#FFD700"
-                sparkSize={8}
-                sparkRadius={20}
+                sparkProps={{
+                  sparkColor: "#fff",
+                  sparkSize: 8,
+                  sparkRadius: 25,
+                  sparkCount: 16,
+                  duration: 400,
+                  extraScale: 1.5,
+                }}
               >
                 سجل الآن
               </SparkButton>

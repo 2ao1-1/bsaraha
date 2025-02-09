@@ -6,6 +6,7 @@ export default function SparkButton({
   children,
   className = "",
   onClick,
+  sparkProps = {},
   ...props
 }) {
   const [sparkPosition, setSparkPosition] = useState({ x: 0, y: 0 });
@@ -22,6 +23,15 @@ export default function SparkButton({
     if (onClick) onClick(e);
   };
 
+  const {
+    sparkSize,
+    sparkRadius,
+    sparkCount,
+    duration,
+    extraScale,
+    ...buttonProps
+  } = props;
+
   return (
     <motion.button
       ref={buttonRef}
@@ -29,15 +39,16 @@ export default function SparkButton({
       onClick={handleClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      {...props}
+      {...buttonProps}
     >
       {children}
       <ClickSpark
-        sparkSize={6}
-        sparkRadius={20}
-        sparkCount={12}
-        duration={500}
-        extraScale={1.2}
+        {...sparkProps}
+        sparkSize={sparkSize || 6}
+        sparkRadius={sparkRadius || 20}
+        sparkCount={sparkCount || 12}
+        duration={duration || 500}
+        extraScale={extraScale || 1.2}
       />
     </motion.button>
   );

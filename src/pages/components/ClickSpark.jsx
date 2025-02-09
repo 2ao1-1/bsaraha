@@ -138,18 +138,11 @@ export default function ClickSpark({
     sparksRef.current.push(...newSparks);
   };
 
+  // Only pass valid canvas props
   return (
     <canvas
       ref={canvasRef}
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "block",
-        userSelect: "none",
-        position: "absolute",
-        top: 0,
-        left: 0,
-      }}
+      className="w-full h-full block absolute top-0 left-0 select-none"
       onClick={handleClick}
     />
   );

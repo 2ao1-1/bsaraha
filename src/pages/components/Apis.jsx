@@ -1,5 +1,3 @@
-export const SECRET_KEY = `MySuperSecretKey`;
-
 const baseUrl = `http://144.91.75.57:2001`;
 
 export const POST_NEWUSER = `${baseUrl}/api/auth/register`;

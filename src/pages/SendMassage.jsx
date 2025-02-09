@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 
-import { POST_MESSAGES_TOUSER } from "./components/SecretKey";
+import { POST_MESSAGES_TOUSER } from "./components/Apis";
 import Navbar from "./components/Navbar";
+import Menu from "./components/Menu";
 
 export default function SendMessage() {
   const { userId } = useParams();
@@ -57,7 +58,7 @@ export default function SendMessage() {
       );
       const data = await res.data;
 
-      showStatusMessage(`✅ تم إرسال الرسالة بنجاح!`, "success");
+      showStatusMessage(`✅ تم إرسال الرسالة بنجاح!`, `success : ${data}`);
       setMessage("");
     } catch (error) {
       console.error("❌ API Error:", error);
@@ -71,7 +72,10 @@ export default function SendMessage() {
 
   return (
     <div className="bg-gradient-to-b from-secondary-darker/90 to-secondary-darker/75 text-text-primary ">
-      <Navbar />
+      <Navbar>
+        <Menu />
+      </Navbar>
+
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <motion.div
           className="bg-primary-main p-6 rounded-lg shadow-lg w-full max-w-md relative"
