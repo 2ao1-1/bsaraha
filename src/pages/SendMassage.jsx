@@ -4,9 +4,15 @@ import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 
+<<<<<<< HEAD
 import { POST_MESSAGES_TOUSER } from "./components/Apis";
 import Navbar from "./components/Navbar";
 import Menu from "./components/Menu";
+=======
+import { POST_MESSAGES_TOUSER } from "./components/SecretKey";
+import { Logo } from "./components/Navbar";
+import { Link } from "react-router-dom";
+>>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
 
 export default function SendMessage() {
   const { userId } = useParams();
@@ -72,10 +78,26 @@ export default function SendMessage() {
 
   return (
     <div className="bg-gradient-to-b from-secondary-darker/90 to-secondary-darker/75 text-text-primary ">
+<<<<<<< HEAD
       <Navbar>
         <Menu />
       </Navbar>
 
+=======
+      <motion.header
+        className="bg-secondary-lighter"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", duration: 0.8 }}
+      >
+        <div className="flex space-x-4 p-4 text-primary-main justify-between items-center max-w-7xl mx-auto">
+          <Logo />
+          <nav className="hidden md:flex justify-center">
+            <MenuLinks name={"الصفحه الرئيسية"} path={"/"} />
+          </nav>
+        </div>
+      </motion.header>
+>>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <motion.div
           className="bg-primary-main p-6 rounded-lg shadow-lg w-full max-w-md relative"
@@ -158,5 +180,30 @@ export default function SendMessage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+function MenuLinks({ mobile }) {
+  const links = [{ name: "الصفحة الرئيسية", path: "/" }];
+
+  return (
+    <ul
+      className={`${
+        mobile
+          ? "flex flex-col space-y-2 py-2"
+          : "flex flex-row gap-8 items-center"
+      }`}
+    >
+      {links.map((link, index) => (
+        <li
+          key={index}
+          className="p-2 rounded hover:bg-text-secondary/20 cursor-pointer"
+        >
+          <Link className="hover:underline block w-full" to={link.path}>
+            {link.name}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

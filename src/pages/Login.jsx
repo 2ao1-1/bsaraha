@@ -2,12 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
 
+import decodeJWT from "./components/jwt";
 import CloseBtn from "./components/CloseBtn";
 import SparkButton from "./components/SparkButton";
+<<<<<<< HEAD
 import { GET_EXISTUSER } from "./components/Apis";
+=======
+import { GET_EXISTUSER } from "./components/SecretKey";
+>>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 
 export default function Login() {
@@ -24,7 +28,7 @@ export default function Login() {
         const userData = JSON.parse(storedUserData);
         const token = userData?.token;
         if (token) {
-          const decoded = jwtDecode(token);
+          const decoded = decodeJWT(token);
           if (decoded.exp * 1000 > Date.now()) {
             navigate("/Profile");
           } else {
@@ -47,7 +51,7 @@ export default function Login() {
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+    console.log("ji");
     try {
       const res = await axios.post(GET_EXISTUSER, formData, {
         headers: { "Content-Type": "application/json" },
@@ -56,7 +60,7 @@ export default function Login() {
       const { token, fullName } = res.data;
       if (!token) throw new Error("لم يتم استلام توكن صالح");
 
-      const decoded = jwtDecode(token);
+      const decoded = decodeJWT(token);
       if (!decoded.id) throw new Error("التوكن غير صالح");
 
       localStorage.setItem("userData", JSON.stringify({ token, fullName }));

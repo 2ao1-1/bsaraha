@@ -21,7 +21,11 @@
   ],
   "screenshots": [
     {
+<<<<<<< HEAD
       "src": "public/bannar.png",
+=======
+      "src": "/public/bannar.png",
+>>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "wide"

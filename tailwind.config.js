@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        headers: ["Rakkas", "Badeen Display"],
-        secondary: ["Aref Ruqaa", "sans-serif"],
-        body: ["Cairo", "sans-serif"],
+        headers: ["Rakkas-Regular"],
+        secondary: ["sans-serif"],
+        body: ["Cairo-Regular", "sans-serif"],
       },
       colors: {
         primary: {
