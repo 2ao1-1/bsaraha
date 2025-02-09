@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
-<<<<<<< HEAD
-=======
 
-import Menu from "./Menu";
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
-
-export default function Navbar() {
+export default function Navbar({ children }) {
   return (
     <motion.header
       className="bg-secondary-lighter"

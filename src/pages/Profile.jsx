@@ -4,13 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { User } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
 
-<<<<<<< HEAD
 import { GET_USER_MESSAGES } from "./components/Apis";
-=======
-import decodeJWT from "./components/jwt";
-import { GET_USER_MESSAGES } from "./components/SecretKey";
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
 import SparkButton from "./components/SparkButton";
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
 
@@ -58,7 +54,7 @@ export default function Profile() {
         });
 
         if (token) {
-          const decodedToken = decodeJWT(token);
+          const decodedToken = jwtDecode(token);
           setUserId(decodedToken.id);
         } else {
           console.error("❌ No token found.");

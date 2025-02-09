@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-<<<<<<< HEAD
 
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -8,14 +7,6 @@ import axios from "axios";
 import SparkButton from "./components/SparkButton.jsx";
 import CloseBtn from "./components/CloseBtn";
 import { POST_NEWUSER } from "./components/Apis";
-=======
-import axios from "axios";
-import { motion } from "framer-motion";
-
-import SparkButton from "./components/SparkButton.jsx";
-import CloseBtn from "./components/CloseBtn";
-import { POST_NEWUSER } from "./components/SecretKey";
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
 import { ErrorMessage, SuccessMessage } from "./components/SucOrErr.jsx";
 
 export default function Register() {

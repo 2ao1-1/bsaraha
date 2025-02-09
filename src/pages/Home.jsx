@@ -1,20 +1,12 @@
 import { useEffect } from "react";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 
-import { jwtDecode } from "jwt-decode";
-=======
-
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
+import decodeJWT from "./components/jwt";
 import { motion } from "framer-motion";
 
 import SparkButton from "./components/SparkButton";
 import Navbar from "./components/Navbar";
-<<<<<<< HEAD
 import Menu from "./components/Menu";
-=======
-import decodeJWT from "./components/jwt";
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
 
 export default function Home() {
   const navigate = useNavigate();
@@ -88,7 +80,6 @@ export default function Home() {
               <SparkButton
                 className="mt-5 px-6 py-3 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
                 onClick={() => navigate("/Login")}
-<<<<<<< HEAD
                 sparkProps={{
                   sparkColor: "#fff",
                   sparkSize: 8,
@@ -97,15 +88,12 @@ export default function Home() {
                   duration: 400,
                   extraScale: 1.5,
                 }}
-=======
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
               >
                 دخول
               </SparkButton>
               <SparkButton
                 className="mt-5 px-6 py-3 bg-secondary-lighter hover:bg-secondary-darker text-white rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
                 onClick={() => navigate("/Register")}
-<<<<<<< HEAD
                 sparkProps={{
                   sparkColor: "#fff",
                   sparkSize: 8,
@@ -114,8 +102,6 @@ export default function Home() {
                   duration: 400,
                   extraScale: 1.5,
                 }}
-=======
->>>>>>> 5aed53606338ad1761d563e05098db8e5ebb6538
               >
                 سجل الآن
               </SparkButton>
