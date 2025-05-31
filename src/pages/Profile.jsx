@@ -6,9 +6,9 @@ import axios from "axios";
 import { User } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 
-import { GET_USER_MESSAGES } from "./components/Apis";
-import SparkButton from "./components/SparkButton";
-import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
+import { GET_USER_MESSAGES } from "../components/Apis";
+import SparkButton from "../components/SparkButton";
+import { ErrorMessage, SuccessMessage } from "../components/SucOrErr";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -100,14 +100,13 @@ export default function Profile() {
     navigate("/");
   }
 
-  const shareUrl = `${window.location.origin}/#/send-message/${userId}`;
-  // function shareProfile() {
-  //   navigator.clipboard.writeText(shareUrl);
-  //   setSuccess("تم نسخ الرابط بنجاح!");
-  //   setInterval(() => {
-  //     setSuccess("");
-  //   }, 2000);
-  // }
+  const userName = `${userData?.fullName
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9-]/g, "")}`;
+
+  const shareUrl = `${window.location.origin}/#/${userName}/${userId}`;
   function shareProfile() {
     try {
       const textArea = document.createElement("textarea");
@@ -143,14 +142,14 @@ export default function Profile() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-b bg-primary-darker p-4 mx-auto font-body"
+      className="min-h-screen bg-gradient-to-b bg-gray-400 p-4 mx-auto font-body"
     >
       <div className="container mx-auto">
         <div className="grid justify-center">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="grid md:grid-cols-2 gap-4 justify-center items-center mb-6 p-6 bg-primary-main rounded-lg shadow-lg"
+            className="grid md:grid-cols-2 gap-4 justify-center items-center mb-6 p-6 bg-gray-200 rounded-lg shadow-lg"
           >
             <UserInfo name={userData?.fullName} />
             <div className=" flex flex-col justify-center items-center">
@@ -173,12 +172,12 @@ export default function Profile() {
             animate={{ y: 0, opacity: 1 }}
             className="bg-white rounded-lg shadow-lg p-6"
           >
-            <h3 className="text-3xl font-bold mb-6 text-secondary-lighter">
+            <h3 className="text-3xl font-bold mb-6 text-gray-800">
               الرسائل المستلمة
             </h3>
             <SparkButton
               onClick={fetchMessages}
-              className="bg-secondary-lighter hover:bg-secondary-darker text-white px-6 py-2 rounded-lg transition-colors duration-200 mb-6"
+              className="bg-gray-500 hover:bg-gray-darker text-white px-6 py-2 rounded-lg transition-colors duration-200 mb-6"
               disabled={loading}
             >
               🔄 تحديث يدوي
@@ -188,7 +187,7 @@ export default function Profile() {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 1 }}
-                className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"
+                className="w-12 h-12 border-4 border-gray-500 border-t-transparent rounded-full mx-auto"
               />
             ) : (
               <AnimatePresence>
@@ -198,7 +197,7 @@ export default function Profile() {
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-center text-text-secondary text-lg"
+                    className="text-center text-gray-600 text-lg"
                   >
                     لا توجد رسائل حتى الآن
                   </motion.p>
@@ -212,25 +211,25 @@ export default function Profile() {
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function UserInfo({ name }) {
   return (
     <div className=" flex flex-col justify-center items-center">
       <User
         size={80}
-        className="rounded-full bg-text-light/20 border-secondary-lighter border-2 text-secondary-lighter mb-8"
+        className="rounded-full bg-gray-200 text-gray-700 border-gray-500 border-2  mb-8"
       />
-      <h2 className="text-4xl font-bold mb-4 text-secondary-lighter font-headers">
-        {name}
-      </h2>
+      <h2 className="text-4xl mb-4 text-gray-800 font-headers">{name}</h2>
     </div>
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function CopyURL({ loading, shareProfile }) {
   return (
     <SparkButton
       onClick={shareProfile}
-      className="bg-secondary-lighter hover:bg-secondary-main text-white px-6 py-2 rounded-lg transition-colors duration-200"
+      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
       disabled={loading}
     >
       نسخ الرابط
@@ -238,6 +237,7 @@ function CopyURL({ loading, shareProfile }) {
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function LogOutBtn({ loading, handleLogout }) {
   return (
     <SparkButton
@@ -250,6 +250,7 @@ function LogOutBtn({ loading, handleLogout }) {
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function ReceivedMessages({ messages }) {
   return (
     <motion.div className="space-y-4 mx-auto">
@@ -259,10 +260,10 @@ function ReceivedMessages({ messages }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-secondary-darker/10 p-4 rounded-lg shadow-md border border-accent-lighter/20 relative"
+          className="bg-gray-200 p-4 rounded-lg shadow-md border border-gray-600 relative flex justify-between flex-wrap gap-5"
         >
-          <p className="text-text-primary text-lg mb-4">{message.content}</p>
-          <p className="text-sm text-text-secondary">
+          <p className="text-text-primary text-lg">{message.content}</p>
+          <p className="text-sm text-text-gray">
             {new Date(message.createdAt).toLocaleString("ar-EG", {
               day: "numeric",
               month: "long",

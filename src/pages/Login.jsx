@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { motion } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 
-import CloseBtn from "./components/CloseBtn";
-import SparkButton from "./components/SparkButton";
-import { GET_EXISTUSER } from "./components/Apis";
-import { ErrorMessage, SuccessMessage } from "./components/SucOrErr";
+import CloseBtn from "../components/CloseBtn";
+import { GET_EXISTUSER } from "../components/Apis";
+import { ErrorMessage, SuccessMessage } from "../components/SucOrErr";
+import SubmitBtn from "../components/SubmitBtn";
+import RedirectBtn from "../components/RedirectBtn";
+import FormHeader from "../components/FormHeader";
+import LoginForm from "../components/LoginForm";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -73,17 +76,8 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-secondary-darker/90 to-secondary-darker/75 font-body p-4">
-      <motion.div
-        className="text-center pb-6"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="font-headers text-primary-main text-5xl md:text-7xl md:px-8 drop-shadow-lg">
-          تسجيل الدخول
-        </h2>
-      </motion.div>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-gray-600 to-gray-700 font-body p-4">
+      <FormHeader text="تسجيل دخول" />
 
       <motion.form
         initial={{ opacity: 0, y: 20 }}
@@ -96,59 +90,15 @@ export default function Login() {
           <CloseBtn />
         </div>
 
-        {Object.entries(formData).map(([key, value]) => (
-          <motion.div
-            key={key}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: key === "email" ? 0.3 : 0.4 }}
-          >
-            <label
-              htmlFor={key}
-              className="text-text-secondary block mb-2 text-lg"
-            >
-              {key === "email" ? "البريد الإلكتروني" : "كلمة المرور"}
-            </label>
-            <input
-              type={key === "password" ? "password" : "text"}
-              name={key}
-              id={key}
-              value={value}
-              onChange={handleChange}
-              className="w-full p-3 bg-primary-darker text-text-primary rounded-md outline-none transition-all duration-300 focus:bg-secondary-lighter/25 focus:ring-2 focus:ring-secondary-lighter"
-              required
-            />
-          </motion.div>
-        ))}
+        <LoginForm formData={formData} handleChange={handleChange} />
 
-        <SparkButton
-          type="submit"
-          className="mt-4 bg-secondary-lighter text-primary-main p-3 w-full rounded-md font-bold text-lg transition-all duration-300 hover:bg-secondary-darker hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
-          disabled={loading}
-        >
-          {loading ? (
-            <span className="inline-flex items-center">
-              جاري التسجيل...
-              <motion.span
-                className="mr-2 h-4 w-4 rounded-full border-2 border-primary-main border-t-transparent"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              />
-            </span>
-          ) : (
-            "تسجيل"
-          )}
-        </SparkButton>
+        <SubmitBtn loading={loading} />
 
-        <div className="text-center text-text-primary text-lg">
-          <span>لديك حساب؟ </span>
-          <Link
-            to="/register"
-            className="text-secondary-lighter font-bold transition-colors duration-300 hover:text-secondary-darker"
-          >
-            إنشاء حساب هنا
-          </Link>
-        </div>
+        <RedirectBtn
+          text="ليس لديك حساب؟"
+          to="/register"
+          forwardText="سجل الآن"
+        />
 
         {error && <ErrorMessage>{error}</ErrorMessage>}
 

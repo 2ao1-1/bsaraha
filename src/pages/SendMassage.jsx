@@ -1,38 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 
-import { POST_MESSAGES_TOUSER } from "./components/Apis";
-import Navbar from "./components/Navbar";
-import Menu from "./components/Menu";
+import { POST_MESSAGES_TOUSER } from "../components/Apis";
+import Navbar from "../components/Navbar";
+import Menu from "../components/Menu";
 
 export default function SendMessage() {
-  const { userId } = useParams();
-  const [recipientName, setRecipientName] = useState("");
+  const { userName, userId } = useParams();
+
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [showStatus, setShowStatus] = useState(false);
 
-  useEffect(() => {
-    const storedData = localStorage.getItem("userData");
-
-    if (storedData) {
-      try {
-        const parsedData = JSON.parse(storedData);
-        const fullName = parsedData.fullName;
-
-        setRecipientName(fullName || "مستخدم غير معروف");
-      } catch (error) {
-        console.error("خطأ في فك التشفير:", error);
-        setRecipientName("مستخدم غير معروف");
-      }
-    } else {
-      setRecipientName("مستخدم غير معروف");
-    }
-  }, []);
+  const storedData = localStorage.getItem("userData");
+  console.log(storedData);
 
   function showStatusMessage(text, type) {
     setStatus({ text, type });
@@ -71,10 +56,16 @@ export default function SendMessage() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-secondary-darker/90 to-secondary-darker/75 text-text-primary ">
-      <Navbar>
-        <Menu />
-      </Navbar>
+    <div className="bg-gradient-to-b from-gray-600 to-gray-700 text-text-primary ">
+      {storedData ? (
+        <Navbar>
+          <Menu userView="user" />
+        </Navbar>
+      ) : (
+        <Navbar>
+          <Menu />
+        </Navbar>
+      )}
 
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <motion.div
@@ -84,7 +75,7 @@ export default function SendMessage() {
           transition={{ duration: 0.6 }}
         >
           <AnimatePresence mode="wait">
-            {recipientName && (
+            {userName && (
               <motion.div
                 className="mb-6 p-4 text-center rounded bg-primary-darker/30"
                 initial={{ opacity: 0, y: -10 }}
@@ -94,15 +85,15 @@ export default function SendMessage() {
                 <h3 className="text-sm font-semibold text-text-primary/80">
                   👤 إرسال رسالة إلى:
                 </h3>
-                <p className="text-3xl font-headers text-secondary-lighter font-bold mt-2">
-                  {recipientName}
+                <p className="text-3xl font-headers text-gra-900 mt-2">
+                  {userName.replace("-", " ").toLocaleUpperCase()}
                 </p>
               </motion.div>
             )}
           </AnimatePresence>
 
           <motion.textarea
-            className="w-full p-4 rounded bg-primary-darker text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary-lighter placeholder-text-primary/50 resize-none"
+            className="w-full p-4 rounded bg-primary-darker text-text-primary focus:outline-none focus:ring-2 focus:ring-gray-400 placeholder-text-primary/50 resize-none"
             rows="4"
             placeholder="✍️ اكتب رسالتك هنا..."
             value={message}
@@ -117,8 +108,8 @@ export default function SendMessage() {
             disabled={loading}
             className={`mt-4 ${
               loading
-                ? "bg-secondary-main cursor-not-allowed opacity-70"
-                : "bg-secondary-lighter hover:bg-secondary-darker"
+                ? "bg-gray-600 cursor-not-allowed opacity-70"
+                : "bg-gray-600 hover:bg-gray-700"
             } text-primary-main px-6 py-3 rounded-lg w-full transition-all duration-300 font-semibold tracking-wide`}
             whileHover={{ scale: loading ? 1 : 1.02 }}
             whileTap={{ scale: loading ? 1 : 0.98 }}
@@ -158,30 +149,5 @@ export default function SendMessage() {
         </motion.div>
       </div>
     </div>
-  );
-}
-
-function MenuLinks({ mobile }) {
-  const links = [{ name: "الصفحة الرئيسية", path: "/" }];
-
-  return (
-    <ul
-      className={`${
-        mobile
-          ? "flex flex-col space-y-2 py-2"
-          : "flex flex-row gap-8 items-center"
-      }`}
-    >
-      {links.map((link, index) => (
-        <li
-          key={index}
-          className="p-2 rounded hover:bg-text-secondary/20 cursor-pointer"
-        >
-          <Link className="hover:underline block w-full" to={link.path}>
-            {link.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
   );
 }

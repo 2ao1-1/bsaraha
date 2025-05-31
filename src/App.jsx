@@ -14,7 +14,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/send-message/:userId" element={<SendMessage />} />
+        <Route path="/:userName/:userId" element={<SendMessage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
