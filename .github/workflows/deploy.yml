@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -30,13 +30,46 @@ jobs:
 
     steps:
       - name: Deploy to Server via SSH
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASSWORD }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          port: 22
+          timeout: 30s
+          command_timeout: 10m
           script: |
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest 
-            docker stop saraha-ui || true 
-            docker rm saraha-ui || true 
-            docker run -d --name saraha-ui -p 3000:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
+            echo "🚀 Starting deployment..."
+
+            # Pull the latest image
+            echo "📥 Pulling latest Docker image..."
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
+
+            # Stop and remove existing container
+            echo "🛑 Stopping existing container..."
+            docker stop saraha-ui || echo "Container not running"
+            docker rm saraha-ui || echo "Container not found"
+
+            # Run new container
+            echo "▶️ Starting new container..."
+            docker run -d \
+              --name saraha-ui \
+              -p 3000:80 \
+              --restart unless-stopped \
+              ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
+
+            # Verify deployment
+            echo "✅ Verifying deployment..."
+            sleep 5
+            if docker ps | grep saraha-ui; then
+              echo "🎉 Deployment successful!"
+            else
+              echo "❌ Deployment failed!"
+              exit 1
+            fi
+
+            # Clean up old images
+            echo "🧹 Cleaning up old images..."
+            docker image prune -f || true
+
+            echo "✨ Deployment completed successfully!"
