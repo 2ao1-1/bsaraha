@@ -40,4 +40,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
             docker stop myapp || true
             docker rm myapp || true
-            docker run -d --name myapp -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
+            docker run -d --name myapp -p 3000:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
