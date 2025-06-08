@@ -35,16 +35,9 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          # key: ${{ secrets.SERVER_PASSWORD }}
-          # port: 22
+          port: 3000
           script: |
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
             docker stop myapp || true
             docker rm myapp || true
             docker run -d --name myapp -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
-          # script: |
-          #   echo "🚀 Deploying..."
-          #   cd /var/www/my-site
-          #   git pull origin main
-          #   npm install
-          #   npm run build
