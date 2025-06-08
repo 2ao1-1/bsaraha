@@ -24,7 +24,7 @@ jobs:
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
 
-  deploy: # ✅ Correct: deploy is now its own job
+  deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
 
@@ -34,9 +34,9 @@ jobs:
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest 
-            docker stop saraha-ui || true 
-            docker rm saraha-ui || true 
-            docker run -d --name saraha-ui -p 3000:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
+            docker stop myapp || true 
+            docker rm myapp || true 
+            docker run -d --name myapp -p 3000:80 ${{ secrets.DOCKER_HUB_USERNAME }}/saraha:latest
