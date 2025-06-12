@@ -18,6 +18,7 @@ export default function Profile() {
   const [userId, setUserId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     if (userId) {
@@ -94,6 +95,35 @@ export default function Profile() {
       setLoading(false);
     }
   }
+
+  // async function deleteMessage(messageId) {
+  //   setDeletingId(messageId);
+  //   setError(null);
+
+  //   try {
+  //     await axios.delete(`${GET_USER_MESSAGES}/${messageId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${userData?.token}`,
+  //         Accept: "application/json",
+  //       },
+  //     });
+
+  //     setMessages((prev) =>
+  //       prev.filter((message) => message._id !== messageId)
+  //     );
+
+  //     setSuccess("تم حذف الرسالة بنجاح!");
+
+  //     setTimeout(() => setSuccess(null), 2000);
+  //   } catch (error) {
+  //     console.log("Error deleting message:", error);
+  //     setError("فشل في حذف الرسالة");
+
+  //     setTimeout(() => setError(null), 3000);
+  //   } finally {
+  //     setDeletingId(null);
+  //   }
+  // }
 
   function handleLogout() {
     localStorage.removeItem("userData");
@@ -260,18 +290,27 @@ function ReceivedMessages({ messages }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-gray-200 p-4 rounded-lg shadow-md border border-gray-600 relative flex justify-between flex-wrap gap-5"
+          className="bg-gray-200 p-4 rounded-lg shadow-md border border-gray-600 relative flex flex-col justify-between flex-wrap gap-5"
         >
           <p className="text-text-primary text-lg">{message.content}</p>
-          <p className="text-sm text-text-gray">
-            {new Date(message.createdAt).toLocaleString("ar-EG", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-text-gray">
+              {new Date(message.createdAt).toLocaleString("ar-EG", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+            {/* <button
+              className="px-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => onDelete(message._id)}
+              disabled={deletingId === message._id}
+            >
+              {deletingId === message._id ? "..." : "🗑"}
+            </button> */}
+          </div>
         </motion.div>
       ))}
     </motion.div>

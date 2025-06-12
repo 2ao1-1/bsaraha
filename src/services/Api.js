@@ -119,4 +119,9 @@ export const messagesAPI = {
     const api = createAxiosInstance(true);
     return handleAxiosRequest(api.get("/messages/"));
   },
+
+  // deleteMessage: async (messageId) => {
+  //   const api = createAxiosInstance(true);
+  //   return handleAxiosRequest(api.delete(`/messages/${messageId}`));
+  // },
 };

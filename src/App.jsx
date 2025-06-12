@@ -5,8 +5,19 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import SendMessage from "./pages/SendMassage";
 import NotFound from "./pages/NotFound";
+import ReactGA from "react-ga4";
+import { useEffect } from "react";
 
 export default function App() {
+  useEffect(() => {
+    ReactGA.initialize("G-MYJXMVQRXD");
+    // ReactGA.initialize("G-HJR56R7YCY");
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname,
+      title: "Bsaraha",
+    });
+  }, []);
   return (
     <Router>
       <Routes>
