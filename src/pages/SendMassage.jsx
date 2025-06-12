@@ -85,7 +85,7 @@ export default function SendMessage() {
                 <h3 className="text-sm font-semibold text-text-primary/80">
                   👤 إرسال رسالة إلى:
                 </h3>
-                <p className="text-3xl font-headers text-gra-900 mt-2">
+                <p className="text-md md:text-3xl font-headers text-gra-900 mt-2">
                   {userName.replace("-", " ").toLocaleUpperCase()}
                 </p>
               </motion.div>
@@ -95,13 +95,18 @@ export default function SendMessage() {
           <motion.textarea
             className="w-full p-4 rounded bg-primary-darker text-text-primary focus:outline-none focus:ring-2 focus:ring-gray-400 placeholder-text-primary/50 resize-none"
             rows="4"
-            placeholder="✍️ اكتب رسالتك هنا..."
+            placeholder={`✍️ اكتب رسالتك هنا...`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           />
+          {message.length > 0 && message.length < 5 && (
+            <p className="text-red-500 text-xs mt-2">
+              ⚠️ يجب أن تحتوي الرسالة على أكثر من 4 أحرف
+            </p>
+          )}
 
           <motion.button
             onClick={sendMessage}
@@ -110,7 +115,7 @@ export default function SendMessage() {
               loading
                 ? "bg-gray-600 cursor-not-allowed opacity-70"
                 : "bg-gray-600 hover:bg-gray-700"
-            } text-primary-main px-6 py-3 rounded-lg w-full transition-all duration-300 font-semibold tracking-wide`}
+            } text-primary-main px-6 py-3 rounded-lg w-full transition-all duration-300 font-semibold tracking-wide text-sm md:text-base`}
             whileHover={{ scale: loading ? 1 : 1.02 }}
             whileTap={{ scale: loading ? 1 : 0.98 }}
           >

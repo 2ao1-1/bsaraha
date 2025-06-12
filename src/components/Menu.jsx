@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 const menuItems = [
-  { name: "تسجيل الدخول", path: "/login" },
-  { name: "إنشاء حساب", path: "/register" },
+  { icon: "📂", path: "/login", name: "دخول" },
+  { icon: "➕", path: "/register", name: "إنشاء حساب" },
 ];
 
 // eslint-disable-next-line react/prop-types
@@ -12,7 +12,7 @@ export default function Menu({ userView }) {
       <nav className="flex justify-center">
         <ul className="flex flex-row gap-8 items-center">
           {userView === "user" ? (
-            <MenuLink name="الصفحة الشخصية" path="/profile" />
+            <MenuLink icon="🏠" name="الصفحة الرئيسية" path="/profile" />
           ) : (
             menuItems.map((item) => <MenuLink key={item.path} {...item} />)
           )}
@@ -23,17 +23,17 @@ export default function Menu({ userView }) {
 }
 
 // eslint-disable-next-line react/prop-types
-export function MenuLink({ name, path }) {
+export function MenuLink({ name, path, icon }) {
   return (
     <li className="bg-gray-600 hover:bg-gray-700 rounded-md">
       <Link
         to={path}
         className={`
-          block w-full p-2 rounded-md
-          transition-colors
+          block w-full p-1 rounded-md
+          transition-colors md:flex items-center flex-wrap  
         `}
       >
-        {name}
+        {icon} <span className="hidden md:block">{name}</span>
       </Link>
     </li>
   );

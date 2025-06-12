@@ -89,7 +89,7 @@ function Btn({ text, to }) {
 
   return (
     <SparkButton
-      className="mt-5 px-6 py-3 bg-gray-300 hover:bg-gray-900 text-gray-900 hover:text-gray-100 rounded-lg font-bold text-lg transition-all duration-300 hover:shadow-lg"
+      className="mt-5 px-6 py-3 bg-gray-300 hover:bg-gray-900 text-gray-900 hover:text-gray-100 rounded-lg font-bold transition-all duration-300 hover:shadow-lg  text-sm md:text-base"
       onClick={() => navigate(to)}
       sparkProps={{
         sparkColor: "#fff",

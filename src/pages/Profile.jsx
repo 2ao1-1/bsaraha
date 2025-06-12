@@ -175,67 +175,65 @@ export default function Profile() {
       className="min-h-screen bg-gradient-to-b bg-gray-400 p-4 mx-auto font-body"
     >
       <div className="container mx-auto">
-        <div className="grid justify-center">
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="grid md:grid-cols-2 gap-4 justify-center items-center mb-6 p-6 bg-gray-200 rounded-lg shadow-lg"
-          >
-            <UserInfo name={userData?.fullName} />
-            <div className=" flex flex-col justify-center items-center">
-              <div className="p-4 bg-primary-darker rounded-md text-center">
-                {shareUrl}
-              </div>
-              <div className="space-y-2">
-                <div className="flex gap-4 mt-6">
-                  <CopyURL shareProfile={shareProfile} loading={loading} />
-                  <LogOutBtn handleLogout={handleLogout} loading={loading} />
-                </div>
-                {error && <ErrorMessage>{error}</ErrorMessage>}
-                {success && <SuccessMessage>{success}</SuccessMessage>}
-              </div>
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="md:grid md:grid-cols-2 gap-4 justify-center items-center mb-6 p-2 bg-gray-200 rounded-lg shadow-lg w-full"
+        >
+          <UserInfo name={userData?.fullName} />
+          <div className="p-2 md:flex flex-col justify-center items-center flex-wrap">
+            <div className="p-4 bg-primary-darker rounded-md text-center break-words text-xs md:text-base">
+              {shareUrl}
             </div>
-          </motion.div>
+            <div className="space-y-2">
+              <div className="flex gap-4 mt-6 justify-between">
+                <CopyURL shareProfile={shareProfile} loading={loading} />
+                <LogOutBtn handleLogout={handleLogout} loading={loading} />
+              </div>
+              {error && <ErrorMessage>{error}</ErrorMessage>}
+              {success && <SuccessMessage>{success}</SuccessMessage>}
+            </div>
+          </div>
+        </motion.div>
 
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="bg-white rounded-lg shadow-lg p-6"
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="bg-white rounded-lg shadow-lg p-4"
+        >
+          <h3 className="text-base md:text-3xl font-bold mb-6 text-gray-800">
+            الرسائل المستلمة
+          </h3>
+          <SparkButton
+            onClick={fetchMessages}
+            className="bg-gray-500 hover:bg-gray-darker text-white px-6 py-2 rounded-lg transition-colors duration-200 mb-6 text-sm md:text-base"
+            disabled={loading}
           >
-            <h3 className="text-3xl font-bold mb-6 text-gray-800">
-              الرسائل المستلمة
-            </h3>
-            <SparkButton
-              onClick={fetchMessages}
-              className="bg-gray-500 hover:bg-gray-darker text-white px-6 py-2 rounded-lg transition-colors duration-200 mb-6"
-              disabled={loading}
-            >
-              🔄 تحديث يدوي
-            </SparkButton>
+            🔄 تحديث يدوي
+          </SparkButton>
 
-            {loading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 1 }}
-                className="w-12 h-12 border-4 border-gray-500 border-t-transparent rounded-full mx-auto"
-              />
-            ) : (
-              <AnimatePresence>
-                {messages.length > 0 ? (
-                  <ReceivedMessages messages={messages} />
-                ) : (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center text-gray-600 text-lg"
-                  >
-                    لا توجد رسائل حتى الآن
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            )}
-          </motion.div>
-        </div>
+          {loading ? (
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 1 }}
+              className="w-12 h-12 border-4 border-gray-500 border-t-transparent rounded-full mx-auto"
+            />
+          ) : (
+            <AnimatePresence>
+              {messages.length > 0 ? (
+                <ReceivedMessages messages={messages} />
+              ) : (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center text-gray-600 text-xs md:text-lg"
+                >
+                  لا توجد رسائل حتى الآن
+                </motion.p>
+              )}
+            </AnimatePresence>
+          )}
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -244,12 +242,14 @@ export default function Profile() {
 // eslint-disable-next-line react/prop-types
 function UserInfo({ name }) {
   return (
-    <div className=" flex flex-col justify-center items-center">
+    <div className="py-4 flex flex-col justify-center items-center">
       <User
-        size={80}
-        className="rounded-full bg-gray-200 text-gray-700 border-gray-500 border-2  mb-8"
+        size={60}
+        className="text-3xl rounded-full bg-gray-200 text-gray-700 border-gray-500 border-2  md:mb-8"
       />
-      <h2 className="text-4xl mb-4 text-gray-800 font-headers">{name}</h2>
+      <h2 className="text-base md:text-4xl mb-4 text-gray-800 font-headers">
+        {name}
+      </h2>
     </div>
   );
 }
@@ -259,7 +259,7 @@ function CopyURL({ loading, shareProfile }) {
   return (
     <SparkButton
       onClick={shareProfile}
-      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 text-sm md:text-base"
       disabled={loading}
     >
       نسخ الرابط
@@ -272,7 +272,7 @@ function LogOutBtn({ loading, handleLogout }) {
   return (
     <SparkButton
       onClick={handleLogout}
-      className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+      className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors duration-200 text-sm md:text-base"
       disabled={loading}
     >
       تسجيل خروج
@@ -290,11 +290,13 @@ function ReceivedMessages({ messages }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-gray-200 p-4 rounded-lg shadow-md border border-gray-600 relative flex flex-col justify-between flex-wrap gap-5"
+          className="bg-gray-200 p-3 md:p-4 rounded-lg shadow-md border border-gray-600 flex flex-col gap-3 w-full break-words overflow-hidden text-sm md:text-base"
         >
-          <p className="text-text-primary text-lg">{message.content}</p>
+          <p className="text-text-primary text-md md:text-base break-words overflow-hidden">
+            {message.content}
+          </p>
           <div className="flex justify-between items-center">
-            <p className="text-sm text-text-gray">
+            <p className="text-xs md:text-sm text-text-gray break-words">
               {new Date(message.createdAt).toLocaleString("ar-EG", {
                 day: "numeric",
                 month: "long",

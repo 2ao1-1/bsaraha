@@ -6,7 +6,7 @@ export default function AppLayout() {
   const isLoading = navigation.state === "loading";
 
   return (
-    <main className="flex flex-col bg-primary-main cursor-default h-full w-full">
+    <main className="flex flex-col bg-primary-main cursor-default h-full w-full px-2 py-8">
       {isLoading ? (
         <div className="flex justify-center items-center h-[calc(100vh-60px)]">
           <Loader />

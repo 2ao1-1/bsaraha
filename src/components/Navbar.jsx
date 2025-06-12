@@ -32,7 +32,7 @@ export function Logo() {
       >
         <Mail size={40} />
       </motion.div>
-      <h2 className="text-4xl font-headers">بصراحه</h2>
+      <h2 className="hidden md:block md:text-4xl font-headers">بصراحه</h2>
     </motion.div>
   );
 }
