@@ -1,8 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-// export const BASE_URL = import.meta.env.VITE_API_URL;
-export const BASE_URL = "https://bsaraha-api.2ao1.space/api";
+export const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const API_ENDPOINTS = {
   LOGIN: `${BASE_URL}/auth/login`,
