@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://144.91.75.57:2001/api/:splat"
+  to = "https://bsaraha-api.2ao1.space/api/:splat"
   status = 200
   force = true
