@@ -1,106 +1,92 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { jwtDecode } from "jwt-decode";
 import { motion } from "framer-motion";
+import { MessageCircle, Shield, Users, Zap } from "lucide-react";
 
-import SparkButton from "../components/SparkButton";
+import { isTokenValid } from "../helpers/TokenValidation";
+
+import HomeHero from "../components/Home/HomeHero";
+import FeaturesGrid from "../components/Home/FeaturesGrid";
+import StatsSection from "../components/Home/StatsSection";
+import HowItWorks from "../components/Home/HowItWorks";
+import FooterCTA from "../components/Home/FooterCTA";
 
 export default function Home() {
   const navigate = useNavigate();
 
-  // if user is logged in, redirect to profile
   useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      try {
-        const userData = JSON.parse(storedUserData);
-        const token = userData?.token;
-        if (token) {
-          const decoded = jwtDecode(token);
-          if (decoded.exp * 1000 > Date.now()) {
-            navigate("/profile");
-          } else {
-            localStorage.removeItem("userData");
-          }
-        }
-      } catch {
-        localStorage.removeItem("userData");
-      }
+    if (isTokenValid()) {
+      navigate("/profile", { replace: true });
     }
   }, [navigate]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
+  const features = [
+    {
+      icon: <MessageCircle size={32} />,
+      title: "رسائل مجهولة",
+      description: "استقبل رسائل صريحة من أصدقائك بدون معرفة هويتهم",
     },
-  };
+    {
+      icon: <Shield size={32} />,
+      title: "خصوصية تامة",
+      description: "نحمي خصوصيتك وهوية المرسلين بشكل كامل",
+    },
+    {
+      icon: <Users size={32} />,
+      title: "سهل الاستخدام",
+      description: "واجهة بسيطة وسهلة للجميع",
+    },
+    {
+      icon: <Zap size={32} />,
+      title: "سريع ومجاني",
+      description: "ابدأ الآن مجاناً بدون أي رسوم",
+    },
+  ];
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+  const HowItWork = [
+    {
+      step: "١",
+      title: "أنشئ حسابك",
+      description: "سجل بسرعة وأنشئ ملفك الشخصي",
+    },
+    {
+      step: "٢",
+      title: "شارك رابطك",
+      description: "انسخ رابطك وشاركه مع أصدقائك",
+    },
+    {
+      step: "٣",
+      title: "استقبل الرسائل",
+      description: "اقرأ آراء أصدقائك الصريحة فيك",
+    },
+  ];
 
   return (
-    <div className="h-screen flex">
-      <main className="flex-grow bg-gradient-to-br from-gray-600 to-gray-700">
-        <div className="w-full h-full min-h-[calc(100vh-80px)] text-center flex flex-col justify-center items-center px-4">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="max-w-4xl mx-auto"
-          >
-            <motion.h1
-              variants={itemVariants}
-              className="text-6xl md:text-8xl font-bold font-headers text-white drop-shadow-xl mb-10"
-            >
-              بصراحه
-            </motion.h1>
+    <div className="min-h-screen overflow-hidden relative z-10 container mx-auto px-4 pt-20 flex flex-col items-center justify-center inset-0 w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]"></div>
 
-            <motion.p
-              variants={itemVariants}
-              className="font-body mb-8 text-xl text-white"
-            >
-              هل أنت مستعد لمعرفة ملاحظات الناس عنك بدون أن تعرف المرسل ؟ 🤩
-            </motion.p>
+      <HomeHero
+        title="بصراحه"
+        subtitle="اكتشف رأي أصدقائك بصراحة!"
+        description="منصة آمنة لاستقبال رسائل صريحة ومجهولة من أصدقائك"
+      />
 
-            <motion.div
-              variants={itemVariants}
-              className="flex gap-4 justify-center"
-            >
-              <Btn text="تسجيل الدخول" to={"/Login"} />
-              <Btn text="انشاء حساب" to={"/Register"} />
-            </motion.div>
-          </motion.div>
-        </div>
-      </main>
+      <FeaturesGrid features={features} />
+
+      <StatsSection />
+
+      <HowItWorks steps={HowItWork} />
+
+      <FooterCTA />
+
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 3 }}
+        className="text-center mt-16 pb-8 text-text-primary/60"
+      >
+        <p>© بصراحه 2025. جميع الحقوق محفوظة.</p>
+      </motion.footer>
     </div>
-  );
-}
-
-// eslint-disable-next-line react/prop-types
-function Btn({ text, to }) {
-  const navigate = useNavigate();
-
-  return (
-    <SparkButton
-      className="mt-5 px-6 py-3 bg-gray-300 hover:bg-gray-900 text-gray-900 hover:text-gray-100 rounded-lg font-bold transition-all duration-300 hover:shadow-lg  text-sm md:text-base"
-      onClick={() => navigate(to)}
-      sparkProps={{
-        sparkColor: "#fff",
-        sparkSize: 8,
-        sparkRadius: 25,
-        sparkCount: 16,
-        duration: 400,
-        extraScale: 1.5,
-      }}
-    >
-      {text}
-    </SparkButton>
   );
 }

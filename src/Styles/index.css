@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "Rakkas-Regular";
+  src: url("/public/font/Rakkas-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: "Cairo-Regular";
+  src: url("/public/font/Cairo-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
