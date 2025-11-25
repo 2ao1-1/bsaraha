@@ -62,31 +62,32 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen overflow-hidden relative z-10 container mx-auto px-4 pt-20 flex flex-col items-center justify-center inset-0 w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+    <div className="min-h-screen overflow-hidden relative flex flex-col items-center justify-center inset-0 w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]"></div>
+      <div className="z-10 container mx-auto px-4 pt-20">
+        <HomeHero
+          title="بصراحه"
+          subtitle="اكتشف رأي أصدقائك بصراحة!"
+          description="منصة آمنة لاستقبال رسائل صريحة ومجهولة من أصدقائك"
+        />
 
-      <HomeHero
-        title="بصراحه"
-        subtitle="اكتشف رأي أصدقائك بصراحة!"
-        description="منصة آمنة لاستقبال رسائل صريحة ومجهولة من أصدقائك"
-      />
+        <FeaturesGrid features={features} />
 
-      <FeaturesGrid features={features} />
+        <StatsSection />
 
-      <StatsSection />
+        <HowItWorks steps={HowItWork} />
 
-      <HowItWorks steps={HowItWork} />
+        <FooterCTA />
 
-      <FooterCTA />
-
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3 }}
-        className="text-center mt-16 pb-8 text-text-primary/60"
-      >
-        <p>© بصراحه 2025. جميع الحقوق محفوظة.</p>
-      </motion.footer>
+        <motion.footer
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3 }}
+          className="text-center mt-16 pb-8 text-text-primary/60"
+        >
+          <p>© بصراحه 2025. جميع الحقوق محفوظة.</p>
+        </motion.footer>
+      </div>
     </div>
   );
 }
