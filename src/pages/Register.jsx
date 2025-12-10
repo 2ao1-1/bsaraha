@@ -27,7 +27,7 @@ export default function Register() {
         <div className="flex justify-center gap-4 items-center">
           <RegisterForm />
           <div className="hidden md:block w-1/2">
-            <img src="public/images/Instant information-cuate.svg" alt="" />
+            <img src="/images/Instant information-cuate.svg" alt="" />
           </div>
         </div>
       </motion.div>

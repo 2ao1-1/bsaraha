@@ -68,7 +68,7 @@ export default function HomeHero({ title = "بصراحه", subtitle, description
           </motion.div>
         </div>
         <div className="w-full md:w-1/2">
-          <img src="/public/images/Conversation-pana.svg" alt="" />
+          <img src="/images/Conversation-pana.svg" alt="" />
         </div>
       </div>
     </motion.div>
