@@ -17,15 +17,20 @@ export default function Login() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md z-30"
+        className="w-full h-screen container mx-auto z-30"
       >
-        <div className="text-center mb-6">
+        {/* <div className="text-center mb-6">
           <h1 className="text-5xl font-bold text-secondary-lighter mb-2 font-headers">
             بصراحه
           </h1>
-        </div>
+        </div> */}
 
-        <LoginForm />
+        <div className="flex justify-center gap-4 items-center">
+          <LoginForm />
+          <div className="hidden md:block w-1/2">
+            <img src="public/images/Instant information-cuate.svg" alt="" />
+          </div>
+        </div>
       </motion.div>
     </div>
   );

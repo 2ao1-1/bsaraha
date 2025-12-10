@@ -33,7 +33,7 @@ export default function MessagesSection({
         <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
           الرسائل
           {messages.length > 0 && (
-            <span className="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
+            <span className="bg-brand-400 text-white text-sm px-3 py-1 rounded-full">
               {messages.length}
             </span>
           )}
@@ -45,7 +45,6 @@ export default function MessagesSection({
           className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all disabled:opacity-50"
         >
           <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
-          تحديث
         </button>
       </div>
 

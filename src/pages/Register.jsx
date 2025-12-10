@@ -17,15 +17,19 @@ export default function Register() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
+        className="w-full container mx-auto"
       >
-        <div className="text-center mb-6">
+        {/* <div className="text-center mb-6">
           <h1 className="text-5xl font-bold text-secondary-lighter mb-2 font-headers">
             بصراحه
           </h1>
+        </div> */}
+        <div className="flex justify-center gap-4 items-center">
+          <RegisterForm />
+          <div className="hidden md:block w-1/2">
+            <img src="public/images/Instant information-cuate.svg" alt="" />
+          </div>
         </div>
-
-        <RegisterForm />
       </motion.div>
     </div>
   );

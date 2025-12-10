@@ -79,16 +79,15 @@ export default function RegisterForm() {
   return (
     <>
       <AuthCard>
+        <AuthHeader title="إنشاء حساب جديد" />
         <motion.form
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           onSubmit={handleSubmit}
           className="space-y-4"
         >
-          <AuthHeader title="إنشاء حساب جديد" />
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="md:flex gap-4 items-center">
+            <label className="md:w-1/4 block text-sm font-medium text-gray-700 mb-2">
               الاسم الأول
             </label>
             <input
@@ -98,12 +97,12 @@ export default function RegisterForm() {
               onChange={handleChange}
               placeholder="أحمد"
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+              className="w-full md:w-3/4 px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="md:flex gap-4 items-center">
+            <label className="md:w-1/4 block text-sm font-medium text-gray-700 mb-2">
               اسم العائلة
             </label>
             <input
@@ -113,12 +112,12 @@ export default function RegisterForm() {
               onChange={handleChange}
               placeholder="محمد"
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+              className="w-full md:w-3/4  px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="md:flex gap-4 items-center">
+            <label className="md:w-1/4 block text-sm font-medium text-gray-700 mb-2">
               البريد الإلكتروني
             </label>
             <input
@@ -128,7 +127,7 @@ export default function RegisterForm() {
               onChange={handleChange}
               placeholder="example@email.com"
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+              className="w-full md:w-3/4  px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
             />
           </div>
 
@@ -140,14 +139,14 @@ export default function RegisterForm() {
             name="password"
           />
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
+          {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
             💡 سيتم إنشاء اسم مستخدم تلقائي، ويمكنك تغييره مرة واحدة بعد التسجيل
-          </div>
+          </div> */}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg flex items-center justify-center gap-2"
+            className="w-full md:w-1/2 mx-auto py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

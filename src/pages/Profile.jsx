@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { Loader2, LogOut, LucideShare } from "lucide-react";
 import useProfile from "../hooks/useProfile";
 import UsernameModal from "../components/common/UsernameModal";
 import EditProfileModal from "../components/common/EditProfileModal";
@@ -58,7 +58,7 @@ export default function Profile() {
     );
   }
 
-  const shareLink = `${CLIENT_URL}/${userData?.username || ""}`;
+  const shareLink = `${CLIENT_URL}/${userData?.username}`;
 
   async function copyLink() {
     try {
@@ -85,29 +85,44 @@ export default function Profile() {
       copyLink();
     }
   }
+  function handleEditProfile() {
+    setShowEditProfileModal(true);
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 py-8">
       <div className="container mx-auto px-4 max-w-4xl space-y-6">
-        <UserProfileCard
-          userData={userData}
-          profileImage={profileImage}
-          fileInputRef={fileInputRef}
-          showImageMenu={showImageMenu}
-          onToggleImageMenu={() => setShowImageMenu((s) => !s)}
-          onChooseFile={(e) => handleImageUpload(e.target.files?.[0])}
-          onDeleteImage={handleDeleteImage}
-          onEditProfile={() => setShowEditProfileModal(true)}
-          onUsernameEdit={() => setShowUsernameModal(true)}
-          onLogout={() => handleLogout("/")}
-        />
+        <div className="text-brand-500 flex justify-between">
+          <button onClick={() => handleLogout("/")}>
+            <LogOut size={18} />
+          </button>
+          <span>@{userData.username}</span>
+          <button onClick={shareProfile}>
+            <LucideShare size={18} />
+          </button>
+        </div>
 
-        <ShareLinkCard
-          shareLink={shareLink}
-          copiedLink={copiedLink}
-          onCopy={copyLink}
-          onShare={shareProfile}
-        />
+        <div className="flex gap-4 flex-col md:flex-row">
+          <UserProfileCard
+            userData={userData}
+            profileImage={profileImage}
+            fileInputRef={fileInputRef}
+            showImageMenu={showImageMenu}
+            onToggleImageMenu={() => setShowImageMenu((s) => !s)}
+            onChooseFile={(e) => handleImageUpload(e.target.files?.[0])}
+            onDeleteImage={handleDeleteImage}
+            onEditProfile={handleEditProfile}
+            onUsernameEdit={() => setShowUsernameModal(true)}
+            onLogout={() => handleLogout("/")}
+          />
+
+          <ShareLinkCard
+            shareLink={shareLink}
+            copiedLink={copiedLink}
+            onCopy={copyLink}
+            onShare={shareProfile}
+          />
+        </div>
 
         <MessagesSection
           messages={messages}

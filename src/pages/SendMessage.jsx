@@ -1,13 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, MessageCircle, Loader2 } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { MessageCircle, Loader2 } from "lucide-react";
+import { useParams } from "react-router-dom";
 import useSendMessage from "../hooks/useSendMessage";
 import UserProfileCard from "../components/SendMessage/UserProfileCard";
 import SendForm from "../components/SendMessage/SendForm";
 import PublicMessageCard from "../components/SendMessage/PublicMessageCard";
 
 export default function SendMessage() {
-  const navigate = useNavigate();
   const { username } = useParams();
 
   const {
@@ -18,6 +17,7 @@ export default function SendMessage() {
     loading,
     status,
     handleSend,
+    reloadUser,
     charCount,
     maxChars,
   } = useSendMessage();
@@ -35,23 +35,24 @@ export default function SendMessage() {
   }
 
   return (
-    <div className=" flex items-center justify-center p-4 inset-0 -z-10 min-h-screen w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+    <div className=" flex items-center justify-center md:p-4 inset-0 -z-10 min-h-screen w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]"></div>
       <div className="container mx-auto px-4 max-w-3xl space-y-6 z-20">
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-secondary-lighter hover:text-secondary-darker/80 transition-colors"
-        >
-          <ArrowLeft size={20} />
-          <span>العودة للرئيسية</span>
-        </button>
-
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-2xl shadow-2xl p-8"
         >
-          <UserProfileCard userInfo={userInfo} username={username} />
+          <UserProfileCard
+            userInfo={userInfo}
+            username={username}
+            reloadUser={reloadUser}
+          />
+          {/* <div>
+            <div className="text-end pt-2 text-gray-400">
+              {timeAgo(userInfo.memberSince)}
+            </div>
+          </div> */}
         </motion.div>
 
         <motion.div
@@ -60,11 +61,6 @@ export default function SendMessage() {
           transition={{ delay: 0.1 }}
           className="bg-white rounded-2xl shadow-2xl p-6"
         >
-          <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <MessageCircle size={28} className="text-purple-600" />
-            أرسل رسالة بصراحة
-          </h3>
-
           <SendForm
             message={message}
             setMessage={setMessage}
@@ -73,20 +69,13 @@ export default function SendMessage() {
             charCount={charCount}
             maxChars={maxChars}
           />
-
-          <div>
-            <div className="text-end pt-2 text-gray-400">
-              <span>عضو منذ : </span>
-              {new Date(userInfo.memberSince).toLocaleDateString("ar-EG")}
-            </div>
-          </div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-2xl p-6"
+          className=" "
         >
           {userInfo.publicMessages === null ? (
             <div className="text-center py-12">
@@ -97,6 +86,7 @@ export default function SendMessage() {
             <div className="space-y-4">
               {userInfo.publicMessages.map((msg) => (
                 <PublicMessageCard
+                  profilePic={userInfo.profilePicture}
                   key={msg._id}
                   message={msg}
                   ownerName={userInfo.fullName}

@@ -1,32 +1,43 @@
 import { motion } from "framer-motion";
-import { User, Reply } from "lucide-react";
+import { User } from "lucide-react";
 import PropTypes from "prop-types";
 
-export default function PublicMessageCard({ message, ownerName = "المستخدم" }) {
+export default function PublicMessageCard({
+  message,
+  ownerName = "المستخدم",
+  profilePic,
+}) {
+  function timeAgo(dateString) {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diff = (now - past) / 1000;
+
+    if (diff < 60) return "ثوانٍ";
+    if (diff < 3600) return `${Math.floor(diff / 60)} s`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} h`;
+    if (diff < 604800) return `${Math.floor(diff / 86400)} d`;
+
+    return past.toLocaleDateString("ar-EG");
+  }
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl p-4 border-2 border-purple-200"
+      className="bg-slate-50 rounded-xl p-4 border-2 border-brand-100"
     >
-      <div className="mb-3">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-purple-700 rounded-full flex items-center justify-center flex-shrink-0">
-            <User size={20} className="text-white" />
-          </div>
+      <div className="flex items-start gap-3 w-full">
+        <div className="w-10 h-10 bg-brand-700 rounded-full flex items-center justify-center flex-shrink-0">
+          <User size={20} className="text-white" />
+        </div>
 
-          <div className="flex-1">
-            <div className="flex justify-between items-center">
-              <p className="text-sm font-medium text-purple-600 mb-1">
-                رسالة مجهولة
-              </p>
-              <p className="text-xs text-gray-500 mt-2">
-                {new Date(message.createdAt).toLocaleDateString("ar-EG")}
-              </p>
-            </div>
+        <div className="flex-grow flex md:flex-row justify-between">
+          <p className="font-semibold text-gray-800 mb-2 w-5/6 md:w-11/12 whitespace-pre-wrap break-all">
+            {message.content}
+          </p>
 
-            <p className="text-gray-800 leading-relaxed">{message.content}</p>
-          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            {timeAgo(message.createdAt)}
+          </p>
         </div>
       </div>
 
@@ -34,24 +45,32 @@ export default function PublicMessageCard({ message, ownerName = "المستخد
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border-t border-gray-200 rounded-b-lg p-4"
+          className="py-4"
         >
           <div className="flex items-start gap-3">
-            <span className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-              <Reply size={12} className="text-secondary-lighter" />
+            <span className="w-10 h-10 bg-brand-700 rounded-full flex items-center justify-center flex-shrink-0">
+              {profilePic ? (
+                <img
+                  src={profilePic}
+                  alt={ownerName}
+                  className="w-full h-full object-cover rounded-full"
+                />
+              ) : (
+                <User size={48} className="text-white" />
+              )}
             </span>
-            <div className="w-full">
-              <div className="w-full flex justify-between items-center">
-                <p className="text-sm font-medium text-blue-600 ">
+            <div className="flex-grow flex md:flex-row justify-between">
+              {/* <div className="w-full flex justify-between items-center">
+                {/* <p className="text-sm font-medium text-blue-600 ">
                   {ownerName}
-                </p>
-                <p className="text-xs text-gray-500 ">
-                  {new Date(message.reply.createdAt).toLocaleDateString(
-                    "ar-EG"
-                  )}
-                </p>
-              </div>
-              <p className="text-gray-600 py-2">{message.reply.content}</p>
+                </p> 
+              </div> */}
+              <p className="text-gray-600 py-2 w-5/6 md:w-11/12">
+                {message.reply.content}
+              </p>
+              <p className="text-xs text-gray-500 ">
+                {timeAgo(message.reply.createdAt)}
+              </p>
             </div>
           </div>
         </motion.div>
@@ -71,4 +90,5 @@ PublicMessageCard.propTypes = {
     }),
   }).isRequired,
   ownerName: PropTypes.string,
+  profilePic: PropTypes.string,
 };

@@ -8,7 +8,7 @@ AuthHeader.propTypes = {
 export default function AuthHeader({ title, subtitle }) {
   return (
     <>
-      <h2 className="text-2xl font-bold text-gray-800 text-center mb-4 mt-2">
+      <h2 className="text-2xl font-bold text-gray-800 text-center py-8 mt-2">
         {title}
       </h2>
       {subtitle && (

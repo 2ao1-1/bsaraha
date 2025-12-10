@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { messagesAPI } from "../services/MessagesAPIs";
 import { usersAPI } from "../services/UsersAPIs";
@@ -21,25 +21,28 @@ export default function useSendMessage() {
     setTimeout(() => setStatus(null), 3000);
   }, []);
 
-  useEffect(() => {
-    let mounted = true;
-    async function loadUser() {
-      setLoadingUser(true);
-      const result = await usersAPI.getByUsername(username);
-      if (!mounted) return;
-      if (result.success) {
-        const userData = result.data?.data || result.data;
-        setUserInfo(userData);
-      } else {
-        setTimeout(() => navigate("/"), 2000);
-      }
-      setLoadingUser(false);
+  const mountedRef = useRef(true);
+
+  const loadUser = useCallback(async () => {
+    setLoadingUser(true);
+    const result = await usersAPI.getByUsername(username);
+    if (!mountedRef.current) return;
+    if (result.success) {
+      const userData = result.data?.data || result.data;
+      setUserInfo(userData);
+    } else {
+      setTimeout(() => navigate("/"), 2000);
     }
+    setLoadingUser(false);
+  }, [username, navigate]);
+
+  useEffect(() => {
+    mountedRef.current = true;
     if (username) loadUser();
     return () => {
-      mounted = false;
+      mountedRef.current = false;
     };
-  }, [username, navigate]);
+  }, [username, loadUser]);
 
   const handleSend = useCallback(async () => {
     const trimmed = message.trim();
@@ -78,6 +81,7 @@ export default function useSendMessage() {
     status,
     showStatus,
     handleSend,
+    reloadUser: loadUser,
     charCount,
     maxChars,
   };

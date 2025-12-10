@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Loader2, User } from "lucide-react";
 import PropTypes from "prop-types";
-import { authAPI } from "../../services/AuthAPIs";
+import { usersAPI } from "../../services/UsersAPIs";
 
 export default function EditProfileModal({
   isOpen,
@@ -47,7 +47,7 @@ export default function EditProfileModal({
     }
 
     try {
-      const result = await authAPI.updateProfile(
+      const result = await usersAPI.updateProfile(
         formData.firstName.trim(),
         formData.lastName.trim(),
         formData.bio.trim()
@@ -164,7 +164,7 @@ export default function EditProfileModal({
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
               >
-              {error}
+                {error}
               </motion.div>
             )}
 

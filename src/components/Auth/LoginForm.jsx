@@ -10,8 +10,6 @@ import AuthCard from "./AuthCard";
 import AuthHeader from "./AuthHeader";
 import AuthFooter from "./AuthFooter";
 
-
-
 export default function LoginForm() {
   const navigate = useNavigate();
   const { loading, login } = useAuth();
@@ -54,9 +52,9 @@ export default function LoginForm() {
       >
         <AuthHeader title="مرحباً بعودتك!" />
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            البريد الإلكتروني أو اسم المستخدم
+        <div className="md:flex gap-4 items-center">
+          <label className="md:w-1/4 block text-sm font-medium text-gray-700 mb-2 bg-yellw-300">
+            البريد الإلكتروني
           </label>
           <input
             type="text"
@@ -65,7 +63,7 @@ export default function LoginForm() {
             onChange={handleChange}
             placeholder="example@email.com أو username"
             required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+            className="w-full md:w-3/4 px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
           />
         </div>
 
@@ -79,7 +77,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg flex items-center justify-center gap-2"
+          className="w-full md:w-1/2 mx-auto py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg flex items-center justify-center gap-2"
         >
           {loading ? (
             <>

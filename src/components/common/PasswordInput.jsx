@@ -15,23 +15,24 @@ export default function PasswordInput({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="relative">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        {placeholder}
-      </label>
+    <>
+      <div className="relative md:flex gap-4 items-center">
+        <label className="md:w-1/4 text-sm font-medium text-gray-700 mb-2 ">
+          {placeholder}
+        </label>
 
-      <div className="relative">
-        <input
-          type={isFocused || showPassword ? "text" : "password"}
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          placeholder={placeholder}
-          required={required}
-          minLength={minLength}
-          className={`
+        <div className="relative w-full md:w-3/4 flex flex-col">
+          <input
+            type={isFocused || showPassword ? "text" : "password"}
+            name={name}
+            value={value}
+            onChange={onChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder={placeholder}
+            required={required}
+            minLength={minLength}
+            className={`
             w-full px-4 py-3 pr-12 rounded-lg
             border-2 border-gray-200
             focus:border-blue-500 focus:ring-2 focus:ring-blue-200
@@ -39,31 +40,31 @@ export default function PasswordInput({
             outline-none
             ${className}
           `}
-        />
+          />
 
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute left-3 top-1/2 -translate-y-1/2
-                     text-gray-500 hover:text-gray-700
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute left-3 top-7 -translate-y-1/2
+          text-gray-500 hover:text-gray-700
                      transition-colors duration-200
                      focus:outline-none"
-          tabIndex={-1}
-        >
-          {showPassword ? (
-            <EyeOff size={20} className="text-blue-500" />
-          ) : (
-            <Eye size={20} />
+            tabIndex={-1}
+          >
+            {showPassword ? (
+              <EyeOff size={20} className="text-blue-500" />
+            ) : (
+              <Eye size={20} />
+            )}
+          </button>
+          {value && (
+            <div className="mt-2 w-full">
+              <PasswordStrength password={value} />
+            </div>
           )}
-        </button>
-      </div>
-
-      {value && (
-        <div className="mt-2">
-          <PasswordStrength password={value} />
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -12,9 +12,6 @@ export default function SendForm({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          اكتب رسالتك بصراحة
-        </label>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}

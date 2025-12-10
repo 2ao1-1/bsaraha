@@ -5,9 +5,10 @@
   font-style: normal;
   font-display: fallback;
 }
+
 @font-face {
   font-family: "Cairo-Regular";
-  src: url("/public/font/Cairo-Regular.ttf");
+  src: url("/font/Cairo-Regular.ttf");
   font-weight: 400;
   font-style: normal;
   font-display: fallback;

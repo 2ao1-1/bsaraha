@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 export default function UserProfileCard({ userInfo, username }) {
   return (
-    <div className="flex flex-col items-center text-center space-y-4">
-      <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+    <div className="flex flex-col md:flex-row justify-center gap-8 items-center text-center space-y-4">
+      <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center shadow-lg overflow-hidden">
         {userInfo?.profilePicture ? (
           <img
             src={userInfo.profilePicture}
@@ -21,6 +21,7 @@ export default function UserProfileCard({ userInfo, username }) {
           {userInfo?.fullName || "مستخدم"}
         </h2>
         <p className="text-gray-500 font-mono">@{username}</p>
+
         {userInfo?.bio && (
           <p className="text-gray-600 mt-2 max-w-md">{userInfo.bio}</p>
         )}
@@ -36,4 +37,5 @@ UserProfileCard.propTypes = {
     bio: PropTypes.string,
   }),
   username: PropTypes.string,
+  reloadUser: PropTypes.func,
 };
